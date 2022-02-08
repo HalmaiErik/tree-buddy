@@ -8,14 +8,17 @@ import "../monitoring/TreeMonitoring.sol";
 contract TreeCutting {
 
     struct CuttingContract {
-        uint32 agreedNrTrees;
+        int32 agreedNrTrees;
         uint startTime;
         uint endTime;
         string cutterName;
     }
 
-    mapping(string => mapping(address => int32)) cutterRemainingTrees;
-    mapping(string => mapping(address => address[])) cutterCutTrees;
+    mapping(bytes32 => CuttingContract) public cuttingContract;
+    mapping(string => mapping(address => address[])) public contractAllCutTrees;
+    mapping(string => mapping(address => address[])) public contractTransportedCutTrees;
+
+    mapping(string => mapping(address => int32)) treesLeftForContractAtParcel;
     mapping(string => CuttingContract[]) parcelContracts;
 
     ActorsRegistration registrationContract;
@@ -36,17 +39,24 @@ contract TreeCutting {
         monitoringContract = TreeMonitoring(treeMonitoringContract);
     }
 
-    function createCuttingContract(address cutterAddress, uint32 agreedNrTrees, uint startTime, string memory cutterName, string memory parcel) onlyAdmin external {
+    function createCuttingContract(bytes32 contractId, address cutterAddress, int32 agreedNrTrees, uint startTime, string memory cutterName, string memory parcel) onlyAdmin external {
         require(registrationContract.cutters(cutterAddress) == true, "You need to first register the cutter!");
-        parcelContracts[parcel].push(CuttingContract(agreedNrTrees, startTime, 0, cutterName));
-        
+
+        CuttingContract memory newContract = CuttingContract(agreedNrTrees, startTime, 0, cutterName);
+        cuttingContract[contractId] = newContract;
+        parcelContracts[parcel].push(newContract);
+        treesLeftForContractAtParcel[parcel][cutterAddress] = agreedNrTrees;
     }
 
-    function cutTree(address monitorAddress) onlyCutter external {
-        string memory monitorParcel = monitoringContract.monitorParcel(monitorAddress);
-        require(cutterRemainingTrees[monitorParcel][msg.sender] > 0, "You cannot cut anymore! The agreed tree count, from the contract, has been reached!");
+    function cutTree(address treeAddress) onlyCutter external {
+        string memory treeParcel = monitoringContract.treeParcel(treeAddress);
+        require(treesLeftForContractAtParcel[treeParcel][msg.sender] > 0, "You cannot cut anymore! The agreed tree count, from the contract, has been reached!");
+        require(monitoringContract.markedTrees(treeAddress) == true, "You cannot cut a tree which is not marked for cutting!");
         
-        cutterRemainingTrees[monitorParcel][msg.sender]--;
-        // Add to contract's cut tree list
+        treesLeftForContractAtParcel[treeParcel][msg.sender]--;
+        contractAllCutTrees[treeParcel][msg.sender].push(treeAddress);
+        contractTransportedCutTrees[treeParcel][msg.sender].push(treeAddress);
     }
+
+    function verifyTransport(address )
 }

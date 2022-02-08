@@ -12,9 +12,9 @@ contract TreeMonitoring {
         bool healthy;
     }
 
-    mapping(address => bool) public monitors;
+    mapping(address => bool) public monitoredTrees;
+    mapping(address => string) public treeParcel;
     mapping(address => MonitoredValue[]) public monitoringValues;
-    mapping(address => string) public monitorParcel;
 
     mapping(address => bool) public markedTrees;
 
@@ -31,7 +31,7 @@ contract TreeMonitoring {
     }
 
     modifier onlyTreeMonitors {
-        require(monitors[msg.sender] == true, "Only registered tree monitoring devices are allowed to push data!");
+        require(monitoredTrees[msg.sender] == true, "Only registered tree monitoring devices are allowed to push data!");
         _;
     }
 
@@ -39,9 +39,9 @@ contract TreeMonitoring {
         registrationContract = ActorsRegistration(actorsRegistrationContract);
     }
 
-    function addTreeMonitor(address monitorAddress, string memory parcel) onlyAdminOrForester public {
-        monitors[monitorAddress] = true;
-        monitorParcel[monitorAddress] = parcel;
+    function addMonitoredTree(address monitorAddress, string memory parcel) onlyAdminOrForester public {
+        monitoredTrees[monitorAddress] = true;
+        treeParcel[monitorAddress] = parcel;
     } 
 
     function monitor(uint32 woodQuantity, bool healthy) onlyTreeMonitors public {
