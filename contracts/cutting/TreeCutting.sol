@@ -57,6 +57,4 @@ contract TreeCutting {
         contractAllCutTrees[treeParcel][msg.sender].push(treeAddress);
         contractTransportedCutTrees[treeParcel][msg.sender].push(treeAddress);
     }
-
-    function verifyTransport(address )
 }
