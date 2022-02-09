@@ -14,13 +14,8 @@ contract ActorsRegistration {
         _;
     }
 
-    modifier onlyAdminOrForester {
-        bool forester = false;
-        if (foresters[msg.sender] == true) {
-            forester = true;
-        }
-        
-        require(msg.sender == admin || forester, "You must be using an admin or a forester address for that!");
+    modifier onlyAdminOrForester {        
+        require(msg.sender == admin || foresters[msg.sender], "You must be using an admin or a forester address for that!");
         _;
     }
 
