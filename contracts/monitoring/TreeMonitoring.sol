@@ -18,6 +18,8 @@ contract TreeMonitoring {
 
     mapping(address => bool) public markedTrees;
 
+    mapping(string => uint32) public parcelMarkedWoodQuantity;
+
     ActorsRegistration private registrationContract;
 
     modifier onlyAdminOrForester {
@@ -42,14 +44,18 @@ contract TreeMonitoring {
         registrationContract = ActorsRegistration(actorsRegistrationContract);
     }
 
-    function addMonitoredTree(address monitorAddress, string memory parcel) onlyAdminOrForester external {
-        monitoredTrees[monitorAddress] = true;
-        treeParcel[monitorAddress] = parcel;
+    function addMonitoredTree(address treeAddress, string memory parcel) onlyAdminOrForester external {
+        monitoredTrees[treeAddress] = true;
+        treeParcel[treeAddress] = parcel;
     }
 
-    function removeMonitoredTree(address monitorAddress) onlyRegisteredActor external {
-        monitoredTrees[monitorAddress] = false;
-        markedTrees[monitorAddress] = false;
+    function removeMonitoredTree(address treeAddress) onlyRegisteredActor external {
+        monitoredTrees[treeAddress] = false;
+        markedTrees[treeAddress] = false;
+
+        MonitoredValue[] memory values = monitoringValues[treeAddress];
+        string memory parcel = treeParcel[treeAddress];
+        parcelMarkedWoodQuantity[parcel] -= values[values.length - 1].woodQuantity;
     }
 
     function monitor(uint32 woodQuantity, bool healthy) onlyTreeMonitor external {
@@ -59,9 +65,16 @@ contract TreeMonitoring {
 
     function checkHealth(address treeAddress) private {
         MonitoredValue[] memory values = monitoringValues[treeAddress];
-        if (values.length >= 3) {
-            if (values[values.length - 2].healthy == false && values[values.length - 1].healthy == false) {
+        if (values.length >= 2) {
+            string memory parcel = treeParcel[treeAddress];
+            if (markedTrees[treeAddress]) {
+                // Decrement last quantity and add new quantity
+                parcelMarkedWoodQuantity[parcel] = parcelMarkedWoodQuantity[parcel] - 
+                    values[values.length - 2].woodQuantity + values[values.length - 1].woodQuantity;
+            }
+            else if (values[values.length - 2].healthy == false && values[values.length - 1].healthy == false) {
                 markedTrees[treeAddress] = true;
+                parcelMarkedWoodQuantity[parcel] += values[values.length - 1].woodQuantity;
             }
         }
     }

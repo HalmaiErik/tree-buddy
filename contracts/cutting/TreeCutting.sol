@@ -17,13 +17,14 @@ contract TreeCutting {
 
     CuttingContract[] contracts;
     mapping(bytes32 => CuttingContract) public contractInfo;
-    mapping(address => mapping(string => bytes32)) contractIdOfCutterAtParcel;
+    mapping(address => mapping(string => bytes32)) public contractIdOfCutterAtParcel;
 
-    mapping(bytes32 => int32) treesLeftForContract;
-    mapping(bytes32 => mapping(address => bool)) cutTreesForContract;
+    mapping(bytes32 => int32) public treesLeftForContract;
+    mapping(bytes32 => mapping(address => bool)) public cutTreesMapForContract;
+    mapping(bytes32 => address[]) public cutTreesListForContract;
 
-    ActorsRegistration registrationContract;
-    TreeMonitoring monitoringContract;
+    ActorsRegistration private registrationContract;
+    TreeMonitoring private monitoringContract;
 
     modifier onlyCutter {
         require(registrationContract.cutters(msg.sender) == true, "Only a registered cutter can mark a tree as cut!");
@@ -35,10 +36,18 @@ contract TreeCutting {
         _;
     }
 
-    event ContractCreated(address indexed cutterAddress, address indexed cutterName, string parcel, int32 agreedNrTrees, uint startTime, uint endTime);
-    event TreeCut(address indexed cutterAddress, address indexed treeAddress, string parcel);
+    modifier onlyAdminOrForester {
+        require(msg.sender == registrationContract.admin() || registrationContract.foresters(msg.sender), 
+        "You must be using an admin or a forester address for that!");
+        _;
+    }
+
+    event ContractCreated(address indexed cutterAddress, string indexed cutterName, string parcel, int32 agreedNrTrees, uint startTime, uint endTime);
+    event CutTreeWithoutContract(address indexed cutterAddress, string indexed cutterName, string parcel);
     event CutTreeAfterZeroLeft(address indexed cutterAddress, string parcel);
     event CutUnmarkedTree(address indexed cutterAddress, address treeAddress);
+    event UncutTreeOnTransport(address indexed cutterAddress, string indexed cutterName, address indexed treeAddress);
+    event TreeNotOnCutList(address indexed cutterAddress, string indexed cutterName, address indexed treeAddress);
 
     constructor(address actorsRegistrationContract, address treeMonitoringContract) {
         registrationContract = ActorsRegistration(actorsRegistrationContract);
@@ -57,17 +66,43 @@ contract TreeCutting {
     }
 
     function cutTree(address treeAddress) onlyCutter external {
-        string memory treeParcel = monitoringContract.treeParcel(treeAddress);
-        require(treesLeftForContractAtParcel[treeParcel][msg.sender] > 0, "You cannot cut anymore! The agreed tree count, from the contract, has been reached!");
-        require(monitoringContract.markedTrees(treeAddress) == true, "You cannot cut a tree which is not marked for cutting!");
+        if (!monitoringContract.markedTrees(treeAddress)) {
+            emit CutUnmarkedTree(msg.sender, treeAddress);
+            revert();
+        }
         
-        treesLeftForContractAtParcel[treeParcel][msg.sender]--;
-        cutTreesForContract[treeParcel][msg.sender].push(treeAddress);
+        string memory treeParcel = monitoringContract.treeParcel(treeAddress);
+        bytes32 contractId = contractIdOfCutterAtParcel[msg.sender][treeParcel];
+        string memory cutterName = contractInfo[contractId].cutterName;
+
+        if (contractId == bytes32(0)) {
+            emit CutTreeWithoutContract(msg.sender, cutterName, treeParcel);
+            revert();
+        }
+
+        if (treesLeftForContract[contractId] <= 0) {
+            emit CutTreeAfterZeroLeft(msg.sender, treeParcel);
+            revert();
+        }
+        
+        treesLeftForContract[contractId]--;
+        cutTreesMapForContract[contractId][treeAddress] = true;
+        cutTreesListForContract[contractId].push(treeAddress);
         monitoringContract.removeMonitoredTree(treeAddress);
     }
 
-    function verifyTreeOnTransport(address treeAddress, address cutterAddress) {
-        string memory treeParcel = monitoringContract.treeParcel(treeAddress);
-        require(cutTreesForContract[treeParcel][cutterAddress]);
+    function verifyTreeOnTransport(address treeAddress, address cutterAddress, bytes32 contractId) onlyAdminOrForester external returns (bool) {
+        string memory cutterName = contractInfo[contractId].cutterName;
+        if (monitoringContract.monitoredTrees(treeAddress)) {
+            emit UncutTreeOnTransport(cutterAddress, cutterName, treeAddress);
+            revert();
+        }
+
+        if(!cutTreesMapForContract[contractId][treeAddress]) {
+            emit TreeNotOnCutList(cutterAddress, cutterName, treeAddress);
+            revert();
+        }
+
+        return true;
     }
 }
