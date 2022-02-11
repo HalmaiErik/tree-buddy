@@ -15,7 +15,7 @@ contract TreeCutting {
         uint endTime;
     }
 
-    CuttingContract[] contracts;
+    bytes32[] contracts;
     mapping(bytes32 => CuttingContract) public contractInfo;
     mapping(address => mapping(string => bytes32)) public contractIdOfCutterAtParcel;
 
@@ -42,27 +42,32 @@ contract TreeCutting {
         _;
     }
 
-    event ContractCreated(address indexed cutterAddress, string indexed cutterName, string parcel, int32 agreedNrTrees, uint startTime, uint endTime);
+    event ContractCreated(address indexed cutterAddress, string indexed cutterName, string parcel, int32 agreedNrTrees, uint startTime);
+    event ContractFinished(address indexed cutterAddress, string indexed cutterName, bytes32 contractId, uint endTime);
+
     event CutTreeWithoutContract(address indexed cutterAddress, string indexed cutterName, string parcel);
     event CutTreeAfterZeroLeft(address indexed cutterAddress, string parcel);
     event CutUnmarkedTree(address indexed cutterAddress, address treeAddress);
-    event UncutTreeOnTransport(address indexed cutterAddress, string indexed cutterName, address indexed treeAddress);
-    event TreeNotOnCutList(address indexed cutterAddress, string indexed cutterName, address indexed treeAddress);
+
+    event UncutTreeOnTransport(address indexed cutterAddress, string indexed cutterName, address treeAddress, address indexed foresterAddress);
+    event TreeNotOnCutList(address indexed cutterAddress, string indexed cutterName, address treeAddress, address indexed foresterAddress);
 
     constructor(address actorsRegistrationContract, address treeMonitoringContract) {
         registrationContract = ActorsRegistration(actorsRegistrationContract);
         monitoringContract = TreeMonitoring(treeMonitoringContract);
     }
 
-    function createCuttingContract(bytes32 contractId, address cutterAddress, int32 agreedNrTrees, uint startTime, string memory cutterName, string memory parcel) onlyAdmin external {
+    function createCuttingContract(address cutterAddress, string memory cutterName, string memory parcel, int32 agreedNrTrees) onlyAdmin external {
         require(registrationContract.cutters(cutterAddress) == true, "You need to first register the cutter!");
 
-        CuttingContract memory newContract = CuttingContract(cutterName, parcel, agreedNrTrees, startTime, 0);
-        contracts.push(newContract);
+        CuttingContract memory newContract = CuttingContract(cutterName, parcel, agreedNrTrees, block.timestamp, 0);
+        bytes32 contractId = keccak256(abi.encode(newContract));
+
+        contracts.push(contractId);
         contractInfo[contractId] = newContract;
         contractIdOfCutterAtParcel[cutterAddress][parcel] = contractId;
         treesLeftForContract[contractId] = agreedNrTrees;
-        emit ContractCreated(cutterAddress, cutterName, parcel, agreedNrTrees, startTime, 0);
+        emit ContractCreated(cutterAddress, cutterName, parcel, agreedNrTrees, block.timestamp);
     }
 
     function cutTree(address treeAddress) onlyCutter external {
@@ -94,15 +99,17 @@ contract TreeCutting {
     function verifyTreeOnTransport(address treeAddress, address cutterAddress, bytes32 contractId) onlyAdminOrForester external returns (bool) {
         string memory cutterName = contractInfo[contractId].cutterName;
         if (monitoringContract.monitoredTrees(treeAddress)) {
-            emit UncutTreeOnTransport(cutterAddress, cutterName, treeAddress);
+            emit UncutTreeOnTransport(cutterAddress, cutterName, treeAddress, msg.sender);
             revert();
         }
 
         if(!cutTreesMapForContract[contractId][treeAddress]) {
-            emit TreeNotOnCutList(cutterAddress, cutterName, treeAddress);
+            emit TreeNotOnCutList(cutterAddress, cutterName, treeAddress, msg.sender);
             revert();
         }
 
+        emit ContractFinished(cutterAddress, cutterName, contractId, block.timestamp);
+        contractInfo[contractId].endTime = block.timestamp;
         return true;
     }
 }
