@@ -43,11 +43,11 @@ contract TreeCutting {
     }
 
     event ContractCreated(address indexed cutterAddress, string indexed cutterName, string parcel, int32 agreedNrTrees, uint startTime);
-    event ContractFinished(address indexed cutterAddress, string indexed cutterName, bytes32 contractId, uint endTime);
+    event ContractFinished(address indexed cutterAddress, string indexed cutterName, address indexed foresterAddress, bytes32 contractId, uint endTime);
 
     event CutTreeWithoutContract(address indexed cutterAddress, string indexed cutterName, string parcel);
-    event CutTreeAfterZeroLeft(address indexed cutterAddress, string parcel);
-    event CutUnmarkedTree(address indexed cutterAddress, address treeAddress);
+    event CutTreeAfterZeroLeft(address indexed cutterAddress, string indexed cutterName, string parcel);
+    event CutUnmarkedTree(address indexed cutterAddress, string indexed cutterName, address treeAddress);
 
     event UncutTreeOnTransport(address indexed cutterAddress, string indexed cutterName, address treeAddress, address indexed foresterAddress);
     event TreeNotOnCutList(address indexed cutterAddress, string indexed cutterName, address treeAddress, address indexed foresterAddress);
@@ -57,7 +57,7 @@ contract TreeCutting {
         monitoringContract = TreeMonitoring(treeMonitoringContract);
     }
 
-    function createCuttingContract(address cutterAddress, string memory cutterName, string memory parcel, int32 agreedNrTrees) onlyAdmin external {
+    function createCuttingContract(address cutterAddress, string memory cutterName, string memory parcel, int32 agreedNrTrees) onlyAdmin external returns (bytes32) {
         require(registrationContract.cutters(cutterAddress) == true, "You need to first register the cutter!");
 
         CuttingContract memory newContract = CuttingContract(cutterName, parcel, agreedNrTrees, block.timestamp, 0);
@@ -68,17 +68,18 @@ contract TreeCutting {
         contractIdOfCutterAtParcel[cutterAddress][parcel] = contractId;
         treesLeftForContract[contractId] = agreedNrTrees;
         emit ContractCreated(cutterAddress, cutterName, parcel, agreedNrTrees, block.timestamp);
+        return contractId;
     }
 
     function cutTree(address treeAddress) onlyCutter external {
-        if (!monitoringContract.markedTrees(treeAddress)) {
-            emit CutUnmarkedTree(msg.sender, treeAddress);
-            revert();
-        }
-        
         string memory treeParcel = monitoringContract.treeParcel(treeAddress);
         bytes32 contractId = contractIdOfCutterAtParcel[msg.sender][treeParcel];
         string memory cutterName = contractInfo[contractId].cutterName;
+
+        if (!monitoringContract.markedTrees(treeAddress)) {
+            emit CutUnmarkedTree(msg.sender, cutterName, treeAddress);
+            revert();
+        }
 
         if (contractId == bytes32(0)) {
             emit CutTreeWithoutContract(msg.sender, cutterName, treeParcel);
@@ -86,7 +87,7 @@ contract TreeCutting {
         }
 
         if (treesLeftForContract[contractId] <= 0) {
-            emit CutTreeAfterZeroLeft(msg.sender, treeParcel);
+            emit CutTreeAfterZeroLeft(msg.sender, cutterName, treeParcel);
             revert();
         }
         
@@ -96,7 +97,7 @@ contract TreeCutting {
         monitoringContract.removeMonitoredTree(treeAddress);
     }
 
-    function verifyTreeOnTransport(address treeAddress, address cutterAddress, bytes32 contractId) onlyAdminOrForester external returns (bool) {
+    function verifyTreeOnTransport(address treeAddress, address cutterAddress, bytes32 contractId) onlyAdminOrForester external {
         string memory cutterName = contractInfo[contractId].cutterName;
         if (monitoringContract.monitoredTrees(treeAddress)) {
             emit UncutTreeOnTransport(cutterAddress, cutterName, treeAddress, msg.sender);
@@ -108,8 +109,7 @@ contract TreeCutting {
             revert();
         }
 
-        emit ContractFinished(cutterAddress, cutterName, contractId, block.timestamp);
+        emit ContractFinished(cutterAddress, cutterName, msg.sender, contractId, block.timestamp);
         contractInfo[contractId].endTime = block.timestamp;
-        return true;
     }
 }
