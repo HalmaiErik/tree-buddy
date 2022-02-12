@@ -9,7 +9,7 @@ contract TreeCutting {
 
     struct CuttingContract {
         string cutterName;
-        string parcel;
+        uint16 parcel;
         int32 agreedNrTrees;
         uint startTime;
         uint endTime;
@@ -17,7 +17,7 @@ contract TreeCutting {
 
     bytes32[] contracts;
     mapping(bytes32 => CuttingContract) public contractInfo;
-    mapping(address => mapping(string => bytes32)) public contractIdOfCutterAtParcel;
+    mapping(address => mapping(uint16 => bytes32)) public contractIdOfCutterAtParcel;
 
     mapping(bytes32 => int32) public treesLeftForContract;
     mapping(bytes32 => mapping(address => bool)) public cutTreesMapForContract;
@@ -42,12 +42,12 @@ contract TreeCutting {
         _;
     }
 
-    event ContractCreated(address indexed cutterAddress, string indexed cutterName, string parcel, int32 agreedNrTrees, uint startTime);
-    event ContractFinished(address indexed cutterAddress, string indexed cutterName, address indexed foresterAddress, bytes32 contractId, uint endTime);
+    event ContractCreated(address indexed cutterAddress, string indexed cutterName, bytes32 contractId, uint16 parcel, int32 agreedNrTrees);
+    event ContractFinished(address indexed cutterAddress, string indexed cutterName, address indexed foresterAddress, bytes32 contractId);
 
-    event CutTreeWithoutContract(address indexed cutterAddress, string indexed cutterName, string parcel);
-    event CutTreeAfterZeroLeft(address indexed cutterAddress, string indexed cutterName, string parcel);
-    event CutUnmarkedTree(address indexed cutterAddress, string indexed cutterName, address treeAddress);
+    event CutTreeWithoutContract(address indexed cutterAddress, string indexed cutterName, uint16 parcel, address treeAddress);
+    event CutTreeAfterZeroLeft(address indexed cutterAddress, string indexed cutterName, uint16 parcel, address treeAddress);
+    event CutUnmarkedTree(address indexed cutterAddress, string indexed cutterName, uint16 parcel, address treeAddress);
 
     event UncutTreeOnTransport(address indexed cutterAddress, string indexed cutterName, address treeAddress, address indexed foresterAddress);
     event TreeNotOnCutList(address indexed cutterAddress, string indexed cutterName, address treeAddress, address indexed foresterAddress);
@@ -57,7 +57,7 @@ contract TreeCutting {
         monitoringContract = TreeMonitoring(treeMonitoringContract);
     }
 
-    function createCuttingContract(address cutterAddress, string memory cutterName, string memory parcel, int32 agreedNrTrees) onlyAdmin external returns (bytes32) {
+    function createCuttingContract(address cutterAddress, string memory cutterName, uint16 parcel, int32 agreedNrTrees) onlyAdmin external returns (bytes32) {
         require(registrationContract.cutters(cutterAddress) == true, "You need to first register the cutter!");
 
         CuttingContract memory newContract = CuttingContract(cutterName, parcel, agreedNrTrees, block.timestamp, 0);
@@ -67,27 +67,27 @@ contract TreeCutting {
         contractInfo[contractId] = newContract;
         contractIdOfCutterAtParcel[cutterAddress][parcel] = contractId;
         treesLeftForContract[contractId] = agreedNrTrees;
-        emit ContractCreated(cutterAddress, cutterName, parcel, agreedNrTrees, block.timestamp);
+        emit ContractCreated(cutterAddress, cutterName, contractId, parcel, agreedNrTrees);
         return contractId;
     }
 
     function cutTree(address treeAddress) onlyCutter external {
-        string memory treeParcel = monitoringContract.treeParcel(treeAddress);
-        bytes32 contractId = contractIdOfCutterAtParcel[msg.sender][treeParcel];
+        uint16 parcel = monitoringContract.treeParcel(treeAddress);
+        bytes32 contractId = contractIdOfCutterAtParcel[msg.sender][parcel];
         string memory cutterName = contractInfo[contractId].cutterName;
 
         if (!monitoringContract.markedTrees(treeAddress)) {
-            emit CutUnmarkedTree(msg.sender, cutterName, treeAddress);
+            emit CutUnmarkedTree(msg.sender, cutterName, parcel, treeAddress);
             revert();
         }
 
         if (contractId == bytes32(0)) {
-            emit CutTreeWithoutContract(msg.sender, cutterName, treeParcel);
+            emit CutTreeWithoutContract(msg.sender, cutterName, parcel, treeAddress);
             revert();
         }
 
         if (treesLeftForContract[contractId] <= 0) {
-            emit CutTreeAfterZeroLeft(msg.sender, cutterName, treeParcel);
+            emit CutTreeAfterZeroLeft(msg.sender, cutterName, parcel, treeAddress);
             revert();
         }
         
@@ -109,7 +109,7 @@ contract TreeCutting {
             revert();
         }
 
-        emit ContractFinished(cutterAddress, cutterName, msg.sender, contractId, block.timestamp);
+        emit ContractFinished(cutterAddress, cutterName, msg.sender, contractId);
         contractInfo[contractId].endTime = block.timestamp;
     }
 }

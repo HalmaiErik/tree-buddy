@@ -13,12 +13,12 @@ contract TreeMonitoring {
     }
 
     mapping(address => bool) public monitoredTrees;
-    mapping(address => string) public treeParcel;
+    mapping(address => uint16) public treeParcel;
     mapping(address => MonitoredValue[]) public monitoringValues;
 
     mapping(address => bool) public markedTrees;
 
-    mapping(string => uint32) public parcelMarkedWoodQuantity;
+    mapping(uint16 => uint32) public parcelMarkedWoodQuantity;
 
     ActorsRegistration private registrationContract;
 
@@ -44,7 +44,7 @@ contract TreeMonitoring {
         registrationContract = ActorsRegistration(actorsRegistrationContract);
     }
 
-    function addMonitoredTree(address treeAddress, string memory parcel) onlyAdminOrForester external {
+    function addMonitoredTree(address treeAddress, uint16 parcel) onlyAdminOrForester external {
         monitoredTrees[treeAddress] = true;
         treeParcel[treeAddress] = parcel;
     }
@@ -54,7 +54,7 @@ contract TreeMonitoring {
         markedTrees[treeAddress] = false;
 
         MonitoredValue[] memory values = monitoringValues[treeAddress];
-        string memory parcel = treeParcel[treeAddress];
+        uint16 parcel = treeParcel[treeAddress];
         parcelMarkedWoodQuantity[parcel] -= values[values.length - 1].woodQuantity;
     }
 
@@ -66,7 +66,7 @@ contract TreeMonitoring {
     function checkHealth(address treeAddress) private {
         MonitoredValue[] memory values = monitoringValues[treeAddress];
         if (values.length >= 2) {
-            string memory parcel = treeParcel[treeAddress];
+            uint16 parcel = treeParcel[treeAddress];
             if (markedTrees[treeAddress]) {
                 // Decrement last quantity and add new quantity
                 parcelMarkedWoodQuantity[parcel] = parcelMarkedWoodQuantity[parcel] - 
