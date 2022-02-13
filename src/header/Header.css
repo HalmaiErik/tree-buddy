@@ -1,0 +1,17 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: inline;
+}
+
+img {
+    height: 4em;
+}
+
+h1 {
+    color: #5C2820;
+}

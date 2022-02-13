@@ -1,0 +1,27 @@
+.container {
+    padding: 4px;
+    outline: 2px solid #37B74C;
+    border-radius: 20px;
+    width: fit-content;
+    height: fit-content;
+    background-color: #37B74C;
+}
+
+.container ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+.container li {
+    display: inline;
+    padding: 20px;
+    color: aliceblue;
+}
+
+.container li:hover {
+    color: blue;
+}
+
+.container li:active {
+    color: black;
+}

@@ -1,13 +1,11 @@
-import logo from './logo.svg';
-import './App.css';
-import MetamaskConnection from './components/MetamaskConnection/MetamaskConnection';
 import React from 'react';
+import Header from './header/Header';
 
 const App = () => {
   return (
-    <div className= 'container'>
-      <MetamaskConnection/>
-    </div>
+    <>
+      <Header/>
+    </>
   )
 }
 
