@@ -3,11 +3,11 @@ import styles from './Navigation.module.css'
 
 const Navigation = () => {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} contentEditable='false'>
         <ul>
-          <li>Contracts</li>
-          <li>Cutters</li>
-          <li>Foresters</li>
+          <li><a href="#">Contracts</a></li>
+          <li><a href="#">Cutters</a></li>
+          <li><a href="#">Foresters</a></li>
         </ul>
     </div>
   )
