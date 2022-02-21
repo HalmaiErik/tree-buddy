@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import styles from './MetamaskConnection.module.css';
+import { Button } from "rsuite";
 
 function MetamaskConnection() {
+
     const [currentAccount, setCurrentAccount] = useState(["0x"])
+    const [walletConnected, setWalletConnected] = useState(false)
 
     const connectToMetamask = async () => {
         const ethereum = window.ethereum;
@@ -16,18 +19,27 @@ function MetamaskConnection() {
             }).then(handleCurrentAccount)
 
             ethereum.on('accountsChanged', handleCurrentAccount)
+            console.log('szia')
         }
     }
 
     const handleCurrentAccount = (accounts) => {
-        setCurrentAccount([accounts[0]])
+        setCurrentAccount([
+            accounts[0][0] +
+            accounts[0][1] +
+            '...' +
+            accounts[0][38] +
+            accounts[0][39] +
+            accounts[0][40] +
+            accounts[0][41]
+        ])
+        setWalletConnected(true)
     }
+
     return (
-        <div className={styles.wallet}>
-            <button className={styles.btn} onClick={connectToMetamask}>
-                Connect wallet
-            </button>
-        </div>
+        <Button className={styles.btn} color="green" appearance="primary" onClick={connectToMetamask}>
+            {walletConnected ? {currentAccount} : 'Connect wallet'}
+        </Button>
     );
 }
 

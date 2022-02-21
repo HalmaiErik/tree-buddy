@@ -1,13 +1,22 @@
-import React from 'react';
-import Header from './header/Header';
-import Description from './home/Description/Description';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Header from "./components/header/Header";
+import Transports from "./pages/transports/Transports";
+import Contracts from "./pages/contracts/Contracts";
+import Cutters from "./pages/cutters/Cutters";
+import Home from "./pages/home/Home";
 
 const App = () => {
   return (
-    <>
-      <Header />
-      <Description />
-    </>
+    <BrowserRouter>
+        <Header />
+
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/transports' element={<Transports />} />
+          <Route path='/contracts' element={<Contracts />} />
+          <Route path='/cutters' element={<Cutters />} />
+        </Routes>
+    </BrowserRouter>
   )
 }
 

@@ -4,38 +4,34 @@ pragma solidity >=0.4.22 <0.9.0;
 
 contract ActorsRegistration {
 
-    address public admin;
-
+    mapping(string => address) public companyAddress;
     mapping(address => bool) public cutters;
     mapping(address => bool) public foresters;
 
-    modifier onlyAdmin {
-        require(msg.sender == admin, "You must be using an admin address for that!");
+    modifier onlyForester {        
+        require(foresters[msg.sender], "Not using a registered forester address");
         _;
     }
 
-    modifier onlyAdminOrForester {        
-        require(msg.sender == admin || foresters[msg.sender], "You must be using an admin or a forester address for that!");
+    modifier onlyCutter {
+        require(cutters[msg.sender], "Not using a registered cutter address");
         _;
     }
 
-    constructor() {
-        admin = msg.sender;
-    }
-
-    function registerForester(address foresterAddress) onlyAdmin external {
+    function registerForester(address foresterAddress) onlyForester external {
         foresters[foresterAddress] = true;
     }
 
-    function registerCutter(address cutterAddress) onlyAdminOrForester external {
+    function registerCutter(string memory cif, address cutterAddress) onlyForester external {
         cutters[cutterAddress] = true;
+        companyAddress[cif] = cutterAddress;
     }
 
-    function deleteForester(address foresterAddress) onlyAdmin external {
+    function deleteForester(address foresterAddress) onlyForester external {
         foresters[foresterAddress] = false;
     }
 
-    function deleteCutter(address cutterAddress) onlyAdminOrForester external {
+    function deleteCutter(address cutterAddress) onlyForester external {
         cutters[cutterAddress] = false;
     }
 }
