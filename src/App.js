@@ -1,13 +1,16 @@
+import 'rsuite/styles/index.less';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/header/Header";
 import Transports from "./pages/transports/Transports";
 import Contracts from "./pages/contracts/Contracts";
 import Cutters from "./pages/cutters/Cutters";
 import Home from "./pages/home/Home";
+import { CustomProvider } from 'rsuite';
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <CustomProvider theme="dark">
+      <BrowserRouter>
         <Header />
 
         <Routes>
@@ -16,7 +19,8 @@ const App = () => {
           <Route path='/contracts' element={<Contracts />} />
           <Route path='/cutters' element={<Cutters />} />
         </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+    </CustomProvider>
   )
 }
 

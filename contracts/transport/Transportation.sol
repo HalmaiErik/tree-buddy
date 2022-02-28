@@ -5,36 +5,42 @@ pragma solidity >=0.4.22 <0.9.0;
 import "../registration/ActorsRegistration.sol";
 import "../cutting/TreeCutting.sol";
 
-contract Transportation is ActorsRegistration {
+contract Transportation {
 
     struct Transport {
-        bytes32[] trees;
-        uint departureTime;
+        uint8 nrTrees;
         string car;
+        string cif;
+        uint departureTime;
     }
 
-    mapping(bytes32 => Transport) transportInfo;
-    mapping(bytes32 => bytes32[]) cuttingContractTransports; // cutting contract => transport contracts
-    mapping(string => bytes32[]) carTransports; // car => transport contracts
+    bytes32[] public contracts;
+    mapping(bytes32 => Transport) public transportInfo;
+    mapping(bytes32 => uint16) public treesTransported; // cutting contract => trees-left-for-transport
+    mapping(bytes32 => bytes32[]) public cuttingContractTransports; // cutting contract => transport contracts
+    mapping(string => bytes32[]) public carTransports; // number plate => transport contracts
 
+    ActorsRegistration private actors;
     TreeCutting private cutting;
 
-    constructor(address cuttingContract) {
-        cutting = TreeCutting(cuttingContract);
+    constructor(address actorsContractAddress, address cuttingContractAddress) {
+        actors = ActorsRegistration(actorsContractAddress);
+        cutting = TreeCutting(cuttingContractAddress);
     }
     
-    function createTransportContract(bytes32 cuttingId, string memory car) onlyForester external returns (bytes32) {
-        require(cutting.contracts(cuttingId), "A valid cutting contract needs to be used");
-        Transport memory transport = Transport(new bytes32[](0), block.timestamp, car);
+    function createTransportContract(uint8 nrTrees, string memory car, string memory cif, bytes32 cuttingId) external returns (bytes32) {
+        require(actors.foresters(msg.sender), "Not using a registered forester address");
+        require(cutting.getContractSetAttribute(cuttingId), "An already created cutting contract needs to be used");
+        require(actors.cutterCompanies(cif) != address(0), "Not using a registered cutter");
+        require(treesTransported[cuttingId] + nrTrees <= cutting.getContractNrCutTrees(cuttingId), 
+                "Cannot transport more trees than what has been cut for cutting contract");
+        treesTransported[cuttingId] += nrTrees;
+        Transport memory transport = Transport(nrTrees, car, cif, block.timestamp);
         bytes32 transportId = keccak256(abi.encode(transport));
         transportInfo[transportId] = transport;
         cuttingContractTransports[cuttingId].push(transportId);
         carTransports[car].push(transportId);
+        contracts.push(transportId);
         return transportId;
-    }
-
-    function addTreeToTransport(bytes32 transportId, bytes32 cuttingId, bytes32 treeId) onlyCutter external {
-        require(cutting.treesCutForContract(cuttingId, treeId), "The tree is not cut for this contract");
-        transportInfo[transportId].trees.push(treeId);
     }
 }

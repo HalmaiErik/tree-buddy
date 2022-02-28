@@ -1,3 +1,18 @@
-.searchTable {
-    margin: 1%;
+.content {
+    background-image: url('../../trees2.png');
+    background-position: right top;
+    background-repeat: no-repeat;
+    background-size: 65%;
+    height: 90vh;
+    margin: 0;
+}
+
+.center {
+    padding-top: 3%;
+    text-align: center;
+}
+
+.search {
+    margin-inline: 15%;
+    margin-top: 5%;
 }

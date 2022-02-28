@@ -19,7 +19,6 @@ function MetamaskConnection() {
             }).then(handleCurrentAccount)
 
             ethereum.on('accountsChanged', handleCurrentAccount)
-            console.log('szia')
         }
     }
 
@@ -37,7 +36,7 @@ function MetamaskConnection() {
     }
 
     return (
-        <Button className={styles.btn} color="green" appearance="primary" onClick={connectToMetamask}>
+        <Button className={styles.btn} appearance="primary" onClick={connectToMetamask}>
             {walletConnected ? {currentAccount} : 'Connect wallet'}
         </Button>
     );
