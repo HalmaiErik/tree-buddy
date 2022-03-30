@@ -15,7 +15,7 @@ const Header = () => {
             </Navbar.Brand>
             <Nav>
                 <NavLink to="/transports">Transports</NavLink>
-                <NavLink to="/contracts">Cuts</NavLink>
+                <NavLink to="/cuts">Cuts</NavLink>
                 <NavLink to="/cutters">Cutters</NavLink>
             </Nav>
             <Nav pullRight className={styles.wallet}>

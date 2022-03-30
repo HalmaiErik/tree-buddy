@@ -18,6 +18,7 @@ contract TreeCutting {
     bytes32[] public contracts;
     mapping(bytes32 => CuttingContract) public contractInfo;
     mapping(bytes32 => uint16) public treesLeftForContract;
+    mapping(string => bytes32[]) companyContracts;
 
     ActorsRegistration private actors;
 
@@ -33,6 +34,7 @@ contract TreeCutting {
         contractInfo[contractId] = cuttingContract;
         treesLeftForContract[contractId] = agreedNrTrees;
         contracts.push(contractId);
+        companyContracts[cif].push(contractId);
         return contractId;
     }
 
@@ -48,5 +50,9 @@ contract TreeCutting {
 
     function getContractNrCutTrees(bytes32 contractId) view external returns (uint16) {
         return contractInfo[contractId].agreedNrTrees - treesLeftForContract[contractId];
+    }
+
+    function getContractLocation(bytes32 contractId) view external returns (string memory) {
+        return contractInfo[contractId].location;
     }
 }
