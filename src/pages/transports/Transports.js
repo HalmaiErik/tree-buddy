@@ -157,7 +157,7 @@ const Transports = () => {
           {data.map((item, index) => (
             <List.Item key={item['hash']} index={index + 1} onClick={() => {navigate("/transport/" + item['hash'])}}>
               {/* hash, departure time, car */}
-              <FlexboxGrid className={styles.flex}>
+              <FlexboxGrid>
                 <FlexboxGrid.Item colspan={6} className={styles.center} style={{ flexDirection: 'column', alignItems: 'flex-start', overflow: 'hidden' }}>
                   <div className={styles.titleText}>{item['hash'].substring(0, 6) + '...' + item['hash'].substring(20, 31)}</div>
                   <div className={styles.slimText}>

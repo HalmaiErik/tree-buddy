@@ -1,5 +1,5 @@
 import styles from './Cutters.module.css';
-import { List, FlexboxGrid } from 'rsuite';
+import { List, FlexboxGrid, Content } from 'rsuite';
 import { IoLocationOutline } from 'react-icons/io5';
 import { AutoComplete,  InputGroup } from 'rsuite';
 import Search from '@rsuite/icons/Search';
@@ -115,7 +115,7 @@ const Cutters = () => {
         </InputGroup>
       </div>
 
-      <div className={styles.content}>
+      <Content className={styles.content}>
         <List hover bordered className={styles.list}>
           {data.map((item, index) => (
             <List.Item key={item['cif']} index={index + 1} onClick={() => {navigate("/cutter/" + item['cif'])}}>
@@ -158,7 +158,7 @@ const Cutters = () => {
             </List.Item>
           ))}
         </List>
-      </div>
+      </Content>
     </>
   )
 }

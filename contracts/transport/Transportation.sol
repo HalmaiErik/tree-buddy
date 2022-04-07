@@ -21,6 +21,7 @@ contract Transportation {
     mapping(bytes32 => uint16) public treesTransported; // cutting contract => trees transported
     mapping(bytes32 => bytes32[]) public cuttingContractTransports; // cutting contract => transport contracts
     mapping(string => bytes32[]) public carTransports; // number plate => transport contracts
+    mapping(string => bytes32[]) public companyTransports; // cif => transport contracts
 
     ActorsRegistration private actors;
     TreeCutting private cutting;
@@ -42,6 +43,7 @@ contract Transportation {
         transportInfo[transportId] = transport;
         cuttingContractTransports[cuttingId].push(transportId);
         carTransports[car].push(transportId);
+        companyTransports[cif].push(transportId);
         contracts.push(transportId);
         return transportId;
     }

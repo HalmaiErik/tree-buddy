@@ -1,0 +1,98 @@
+.content {
+    min-height: 100%;
+    height: fit-content;
+    justify-content: center;
+    margin-bottom: 2em;
+}
+
+.qrcode {
+    margin-top: 2em;
+}
+
+.center {
+    text-align: center;
+}
+
+.descriptionContent {
+    margin-top: 6em;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1.5em;
+}
+
+.descriptionTitle {
+    font-size: 1.4em;
+    color: #97969B;
+    font-weight: lighter;
+    text-align: center;
+    margin-bottom: 1.5em;
+}
+
+.descriptionTable {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    border: 1px #429321 solid;
+    border-radius: 10px 10px 10px 10px;
+}
+
+.descriptionRowUp {
+    padding-bottom: 25px;
+    word-wrap: break-word;
+}
+
+.titleText {
+    font-weight: bolder;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.slimText {
+    font-size: 0.8em;
+    color: #97969B;
+    font-weight: lighter;
+}
+
+.dataText {
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+.cuttingContract {
+    margin-top: 6em;
+    margin-bottom: 1.5em;
+}
+
+.contractInfo {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    border: 1px #429321 solid;
+    padding: 20px
+}
+
+.contractInfo:hover {
+    background-color: #3c3f43;
+}
+
+.centerList {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 63px;
+}
+
+.list::-webkit-scrollbar {
+    width: 1em;
+}
+
+.list::-webkit-scrollbar-thumb {
+    background-color: #429321;
+    visibility: hidden;
+    border-radius: 4px 4px 4px 4px;
+}
+
+.list:hover::-webkit-scrollbar-thumb {
+    visibility: visible;
+}
