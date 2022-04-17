@@ -36,12 +36,10 @@ module.exports = {
 
    contracts_build_directory: "./src/abi",
    networks: {
-     parity: {
+     development: {
        host: '127.0.0.1',
-       port: 8545,
-       network_id: 8995,
-       from: '0xff71bfc82231d346cc3b53e2bd17a539a2ede176',
-       gas: 0xffffffff
+       port: 7545,
+       network_id: 5777
      }
    },
  
@@ -53,7 +51,7 @@ module.exports = {
    // Configure your compilers
    compilers: {
      solc: {
-       version: '^0.7.0'   // Fetch exact version from solc-bin (default: truffle's version)
+       version: '>=0.4.22 <0.9.0'   // Fetch exact version from solc-bin (default: truffle's version)
        // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
        // settings: {          // See the solidity docs for advice about optimization and evmVersion
        //  optimizer: {

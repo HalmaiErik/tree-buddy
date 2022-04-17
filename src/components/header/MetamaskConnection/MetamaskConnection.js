@@ -1,44 +1,67 @@
 import React, { useState } from "react";
 import styles from './MetamaskConnection.module.css';
-import { Button } from "rsuite";
+import { Button, Popover, Whisper, Dropdown } from "rsuite";
+
 
 function MetamaskConnection() {
 
-    const [currentAccount, setCurrentAccount] = useState(["0x"])
-    const [walletConnected, setWalletConnected] = useState(false)
+    const [accountAddress, setAccountAddress] = useState("");
+    const ref = React.useRef();
 
-    const connectToMetamask = async () => {
-        const ethereum = window.ethereum;
-        if (!ethereum) {
-            alert("Metamask is not installed in your browser!");
-        } else {
-            console.log("Metamask is installed!")
+    const LogoutPopover = ({ address }) => {
 
-            await ethereum.request({
-                method: 'eth_requestAccounts',
-            }).then(handleCurrentAccount)
+        const ref = React.useRef();
 
-            ethereum.on('accountsChanged', handleCurrentAccount)
+        const MenuPopover = React.forwardRef(({ onSelect, ...rest }, ref) => (
+            <Popover ref={ref} {...rest} full>
+                <Dropdown.Menu onSelect={onSelect}>
+                    <Dropdown.Item eventKey={1}>Disconnect</Dropdown.Item>
+                </Dropdown.Menu>
+            </Popover>
+        ));
+
+        function handleSelectMenu(eventKey, event) {
+            if (eventKey == 1) {
+                setAccountAddress("");
+            }
+
+            ref.current.close();
         }
+
+        return (
+            <Whisper
+                placement="bottomEnd"
+                controlId="control-id-with-dropdown"
+                trigger="click"
+                ref={ref}
+                speaker={<MenuPopover onSelect={handleSelectMenu} />}
+            >
+                <Button className={styles.btn} appearance="primary">{address}</Button>
+            </Whisper>
+        );
     }
 
-    const handleCurrentAccount = (accounts) => {
-        setCurrentAccount([
-            accounts[0][0] +
-            accounts[0][1] +
-            '...' +
-            accounts[0][38] +
-            accounts[0][39] +
-            accounts[0][40] +
-            accounts[0][41]
-        ])
-        setWalletConnected(true)
+    async function getAccount() {
+        const accounts = await window.ethereum.request({
+            method: "eth_requestAccounts",
+        });
+        const account = accounts[0];
+        return account;
     }
+
+    const connectButtonOnClick = () => {
+        if (typeof window !== "undefined") {
+            getAccount().then((response) => {
+                setAccountAddress(response);
+            });
+        }
+    };
 
     return (
-        <Button className={styles.btn} appearance="primary" onClick={connectToMetamask}>
-            {walletConnected ? {currentAccount} : 'Connect wallet'}
-        </Button>
+        !!accountAddress ?
+            <LogoutPopover address={accountAddress.substring(0, 5) + "..." + accountAddress.substring(accountAddress.length - 4)} />
+            :
+            <Button className={styles.btn} appearance="primary" onClick={connectButtonOnClick}>Connect wallet</Button>
     );
 }
 

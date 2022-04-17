@@ -3,5 +3,5 @@
 }
 
 .btn {
-    vertical-align: middle;
+    min-width: 120px;
 }

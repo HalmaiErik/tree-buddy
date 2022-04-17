@@ -6,6 +6,7 @@ contract ActorsRegistration {
 
     string[] public companies;
     mapping(string => address) public cutterCompanies;
+    mapping(address => bool) public cutters;
     mapping(address => bool) public foresters;
 
     constructor() {
@@ -23,6 +24,7 @@ contract ActorsRegistration {
 
     function registerCutter(string memory cif, address cutterAddress) onlyForester external {
         cutterCompanies[cif] = cutterAddress;
+        cutters[cutterAddress] = true;
         companies.push(cif);
     }
 
@@ -31,6 +33,11 @@ contract ActorsRegistration {
     }
 
     function deleteCutter(string memory cif) onlyForester external {
+        cutters[cutterCompanies[cif]] = false;
         cutterCompanies[cif] = address(0);
+    }
+
+    function getCompaniesCount() external view returns (uint) {
+        return companies.length;
     }
 }

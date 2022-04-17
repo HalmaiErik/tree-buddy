@@ -2,8 +2,8 @@
 
 pragma solidity >=0.4.22 <0.9.0;
 
-import "../registration/ActorsRegistration.sol";
-import "../cutting/TreeCutting.sol";
+import "./ActorsRegistration.sol";
+import "./TreeCutting.sol";
 
 contract Transportation {
 
@@ -46,5 +46,9 @@ contract Transportation {
         companyTransports[cif].push(transportId);
         contracts.push(transportId);
         return transportId;
+    }
+
+    function getContractsCount() external view returns (uint) {
+        return contracts.length;
     }
 }

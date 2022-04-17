@@ -2,7 +2,7 @@
 
 pragma solidity >=0.4.22 <0.9.0;
 
-import "../registration/ActorsRegistration.sol";
+import "./ActorsRegistration.sol";
 
 contract TreeCutting {
 
@@ -54,5 +54,9 @@ contract TreeCutting {
 
     function getContractLocation(bytes32 contractId) view external returns (string memory) {
         return contractInfo[contractId].location;
+    }
+
+    function getContractsCount() external view returns (uint) {
+        return contracts.length;
     }
 }

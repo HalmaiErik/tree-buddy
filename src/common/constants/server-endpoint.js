@@ -1,0 +1,5 @@
+const serverEndpoint = ""
+
+export {
+    serverEndpoint
+}
