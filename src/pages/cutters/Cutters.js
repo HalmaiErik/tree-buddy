@@ -7,101 +7,10 @@ import Search from '@rsuite/icons/Search';
 import { useNavigate } from 'react-router-dom';
 import * as CutterApi from '../../services/rest/cutter-api';
 import web3, { actorContractAddress } from '../../web3';
-import { Paragraph } from '@rsuite/icons';
-import FormGroup from 'rsuite/esm/FormGroup';
+import { successNotification, errorNotification, loadingNotification } from '../../common/notifications/notifications';
+import { toaster } from 'rsuite';
 
-const data = [
-  {
-    id: 0,
-    cif: '12345',
-    name: 'ABC SRL',
-    registrationTime: '03/05/2021',
-    description: 'ABC SRL is a nice company',
-    location: 'Bdul. Muncii 18 Jud. CLUJ, Loc. CLUJ NAPOCA',
-    phone: '0746103795',
-    email: 'contact@abc.ro'
-  },
-  {
-    id: 1,
-    cif: '12345',
-    name: 'ABC SRL',
-    registrationTime: '03/05/2021',
-    description: 'ABC SRL is a nice company',
-    location: 'Bdul. Muncii 18 Jud. CLUJ, Loc. CLUJ NAPOCA',
-    phone: '0746103795',
-    email: 'contact@abc.ro'
-  },
-  {
-    id: 2,
-    cif: '12345',
-    name: 'ABC SRL',
-    registrationTime: '03/05/2021',
-    description: 'ABC SRL is a nice company',
-    location: 'Bdul. Muncii 18 Jud. CLUJ, Loc. CLUJ NAPOCA',
-    phone: '0746103795',
-    email: 'contact@abc.ro'
-  },
-  {
-    id: 3,
-    cif: '12345',
-    name: 'ABC SRL',
-    registrationTime: '03/05/2021',
-    description: 'ABC SRL is a nice company',
-    location: 'Bdul. Muncii 18 Jud. CLUJ, Loc. CLUJ NAPOCA',
-    phone: '0746103795',
-    email: 'contact@abc.ro'
-  },
-  {
-    id: 4,
-    cif: '12345',
-    name: 'ABC SRL',
-    registrationTime: '03/05/2021',
-    description: 'ABC SRL is a nice company',
-    location: 'Bdul. Muncii 18 Jud. CLUJ, Loc. CLUJ NAPOCA',
-    phone: '0746103795',
-    email: 'contact@abc.ro'
-  },
-  {
-    id: 5,
-    cif: '12345',
-    name: 'ABC SRL',
-    registrationTime: '03/05/2021',
-    description: 'ABC SRL is a nice company',
-    location: 'Bdul. Muncii 18 Jud. CLUJ, Loc. CLUJ NAPOCA',
-    phone: '0746103795',
-    email: 'contact@abc.ro'
-  },
-  {
-    id: 6,
-    cif: '12345',
-    name: 'ABC SRL',
-    registrationTime: '03/05/2021',
-    description: 'ABC SRL is a nice company',
-    location: 'Bdul. Muncii 18 Jud. CLUJ, Loc. CLUJ NAPOCA',
-    phone: '0746103795',
-    email: 'contact@abc.ro'
-  },
-  {
-    id: 7,
-    cif: '12345',
-    name: 'ABC SRL',
-    registrationTime: '03/05/2021',
-    description: 'ABC SRL is a nice company',
-    location: 'Bdul. Muncii 18 Jud. CLUJ, Loc. CLUJ NAPOCA',
-    phone: '0746103795',
-    email: 'contact@abc.ro'
-  },
-  {
-    id: 8,
-    cif: '12345',
-    name: 'ABC SRL',
-    registrationTime: '03/05/2021',
-    description: 'ABC SRL is a nice company',
-    location: 'Bdul. Muncii 18 Jud. CLUJ, Loc. CLUJ NAPOCA',
-    phone: '0746103795',
-    email: 'contact@abc.ro'
-  },
-];
+const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
 const Cutters = () => {
 
@@ -115,23 +24,64 @@ const Cutters = () => {
     description: '',
     location: '',
     phone: '',
-    email: ''
-  })
+    email: '',
+    address: ''
+  });
 
   useEffect(() => {
-    /*callGetCompanies(); */
+    getCutters();
   }, []);
 
   const abi = require('../../abi/ActorsRegistration.json').abi;
   const actorContract = new web3.eth.Contract(abi, actorContractAddress);
 
-  const callGetCompanies = () => {
+  const submitForm = () => {
+    registerCutter();
+    closeModal();
+    setFormValue = {
+      cif: '',
+      name: '',
+      description: '',
+      location: '',
+      phone: '',
+      email: '',
+      address: ''
+    };
+  }
+
+  const registerCutter = async () => {
+    const accounts = await web3.eth.getAccounts();
+    actorContract.methods.registerCutter(formValue.cif, formValue.address).send({
+      from: accounts[0],
+      gas: 200000
+    }).on('error', (e) => {
+      toaster.push(errorNotification(e), { placement: 'bottomEnd' });
+    }).on('transactionHash', (txHash) => {
+      toaster.push(loadingNotification(txHash), {placement: 'bottomEnd'});
+    }).then((result) => {
+      toaster.push(successNotification('Cutter company registered'), {placement: 'bottomEnd'});
+      CutterApi.insertCutter(formValue);
+    }).catch((e) => {
+      toaster.push(errorNotification(e), { placement: 'bottomEnd' });
+    });
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const getCutters = () => {
+    setCutters([]);
     actorContract.methods.getCompaniesCount().call()
       .then((companiesCount) => {
         for (let i = 0; i < companiesCount; i++) {
-          actorContract.methods.contracts(i).call()
+          actorContract.methods.companies(i).call()
             .then((cif) => {
-              CutterApi.getCutterByCif()
+              CutterApi.getCutterByCif(cif)
                 .then((cutter) => {
                   setCutters(cutters => cutters.concat(cutter));
                 })
@@ -139,16 +89,6 @@ const Cutters = () => {
         }
       });
   };
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  }
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  }
-
-  const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
   return (
     <>
@@ -162,11 +102,11 @@ const Cutters = () => {
           </Modal.Header>
           <Modal.Body>
             <Form fluid onChange={setFormValue} formValue={formValue}>
-              <FormGroup controlId='name-9'>
+              <Form.Group controlId='name-9'>
                 <Form.ControlLabel>Company name</Form.ControlLabel>
                 <Form.Control name="name" />
                 <Form.HelpText>Required</Form.HelpText>
-              </FormGroup>
+              </Form.Group>
               <Form.Group controlId="cif-9">
                 <Form.ControlLabel>CIF</Form.ControlLabel>
                 <Form.Control name="cif" />
@@ -191,11 +131,16 @@ const Cutters = () => {
                 <Form.Control name="email" type="email" />
                 <Form.HelpText>Required</Form.HelpText>
               </Form.Group>
+              <Form.Group controlId="address-9">
+                <Form.ControlLabel>Ethereum wallet address</Form.ControlLabel>
+                <Form.Control name="address" />
+                <Form.HelpText>Required</Form.HelpText>
+              </Form.Group>
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={closeModal} appearance="primary">
-              Ok
+            <Button onClick={submitForm} appearance="primary">
+              Confirm
             </Button>
             <Button onClick={closeModal} appearance="subtle">
               Cancel
@@ -206,7 +151,7 @@ const Cutters = () => {
 
       <div className={styles.search}>
         <InputGroup inside>
-          <AutoComplete data={data} placeholder='Search for cutting company name or CIF' />
+          <AutoComplete data={cutters} placeholder='Search for cutting company name or CIF' />
           <InputGroup.Addon>
             <Search />
           </InputGroup.Addon>
@@ -215,7 +160,7 @@ const Cutters = () => {
 
       <Content className={styles.content}>
         <List hover bordered className={styles.list}>
-          {data.map((item, index) => (
+          {cutters.map((item, index) => (
             <List.Item key={item['cif']} index={index + 1} onClick={() => { navigate("/cutter/" + item['cif']) }}>
               {/* name, location */}
               <FlexboxGrid className={styles.flex}>

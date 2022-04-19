@@ -23,6 +23,7 @@ contract ActorsRegistration {
     }
 
     function registerCutter(string memory cif, address cutterAddress) onlyForester external {
+        require(cutterCompanies[cif] == address(0), "Cutter company already registered");
         cutterCompanies[cif] = cutterAddress;
         cutters[cutterAddress] = true;
         companies.push(cif);

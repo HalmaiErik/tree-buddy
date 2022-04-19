@@ -1,5 +1,5 @@
 const performRequest = (request) => {
-    fetch(request)
+    return fetch(request)
         .then(
             function(response) {
                 if (response.ok) {
