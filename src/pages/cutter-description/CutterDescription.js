@@ -1,265 +1,199 @@
 import styles from './CutterDescription.module.css';
 import { useParams } from 'react-router-dom';
-import { List, FlexboxGrid } from 'rsuite';
-import { IoLocationOutline } from 'react-icons/io5';
-import { BsCalendarDate } from "react-icons/bs";
-import { useNavigate } from 'react-router-dom';
-
-
-const data = [
-    {
-        hash: '0x1e2A66efB426D148dA4E9B73c11119eb748d74e2',
-        company: 'ABC SRL',
-        cif: '12345',
-        agreedNrTrees: 400,
-        cutTrees: 245,
-        location: 'Cluj-Napoca, Faget',
-        parcel: 6,
-        date: '2017.10.13 14:50',
-    },
-    {
-        hash: '0x1e2A66efB426D148dA4E9B73c77779eb748d9999',
-        company: 'ABC SRL',
-        cif: '12345',
-        agreedNrTrees: 400,
-        cutTrees: 400,
-        location: 'Cluj-Napoca, Faget',
-        parcel: 6,
-        date: '2017.10.13 14:50',
-    },
-    {
-        hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d7777',
-        company: 'ABC SRL',
-        cif: '12345',
-        agreedNrTrees: 400,
-        cutTrees: 400,
-        location: 'Cluj-Napoca, Faget',
-        parcel: 6,
-        date: '2017.10.13 14:50',
-    },
-    {
-        hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-        company: 'ABC SRL',
-        cif: '12345',
-        agreedNrTrees: 400,
-        cutTrees: 100,
-        location: 'Cluj-Napoca, Faget',
-        parcel: 6,
-        date: '2017.10.13 14:50',
-    },
-    {
-        hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-        company: 'ABC SRL',
-        cif: '12345',
-        agreedNrTrees: 400,
-        cutTrees: 400,
-        location: 'Cluj-Napoca, Faget',
-        parcel: 6,
-        date: '2017.10.13 14:50',
-    },
-    {
-        hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-        company: 'ABC SRL',
-        cif: '12345',
-        agreedNrTrees: 400,
-        cutTrees: 245,
-        location: 'Cluj-Napoca, Faget',
-        parcel: 6,
-        date: '2017.10.13 14:50',
-    },
-    {
-        hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-        company: 'ABC SRL',
-        cif: '12345',
-        agreedNrTrees: 400,
-        cutTrees: 125,
-        location: 'Cluj-Napoca, Faget',
-        parcel: 6,
-        date: '2017.10.13 14:50',
-    },
-    {
-        hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-        company: 'ABC SRL',
-        cif: '12345',
-        agreedNrTrees: 400,
-        cutTrees: 245,
-        location: 'Cluj-Napoca, Faget',
-        parcel: 6,
-        date: '2017.10.13 14:50',
-    },
-    {
-        hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-        company: 'ABC SRL',
-        cif: '12345',
-        agreedNrTrees: 400,
-        cutTrees: 245,
-        location: 'Cluj-Napoca, Faget',
-        parcel: 6,
-        date: '2017.10.13 14:50',
-    },
-    {
-        hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-        company: 'ABC SRL',
-        cif: '12345',
-        agreedNrTrees: 400,
-        cutTrees: 245,
-        location: 'Cluj-Napoca, Faget',
-        parcel: 6,
-        date: '2017.10.13 14:50',
-    },
-    {
-        hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-        company: 'ABC SRL',
-        cif: '12345',
-        agreedNrTrees: 400,
-        cutTrees: 245,
-        location: 'Cluj-Napoca, Faget',
-        parcel: 6,
-        date: '2017.10.13 14:50',
-    },
-    {
-        hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-        company: 'ABC SRL',
-        cif: '12345',
-        agreedNrTrees: 400,
-        cutTrees: 245,
-        location: 'Cluj-Napoca, Faget',
-        parcel: 6,
-        date: '2017.10.13 14:50',
-    },
-    {
-        hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-        company: 'ABC SRL',
-        cif: '12345',
-        agreedNrTrees: 400,
-        cutTrees: 245,
-        location: 'Cluj-Napoca, Faget',
-        parcel: 6,
-        date: '2017.10.13 14:50',
-    },
-    {
-        hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-        company: 'ABC SRL',
-        cif: '12345',
-        agreedNrTrees: 400,
-        cutTrees: 245,
-        location: 'Cluj-Napoca, Faget',
-        parcel: 6,
-        date: '2017.10.13 14:50',
-    },
-    {
-        hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-        company: 'ABC SRL',
-        cif: '12345',
-        agreedNrTrees: 400,
-        cutTrees: 245,
-        location: 'Cluj-Napoca, Faget',
-        parcel: 6,
-        date: '2017.10.13 14:50',
-    }
-];
+import * as CutterApi from '../../services/rest/cutter-api';
+import { useEffect, useState } from 'react';
+import web3, { actorContract, cuttingContract, transportContract } from '../../web3';
+import CutsList from '../../components/lists/cuts/CutsList';
+import TransportsList from '../../components/lists/transports/TransportsList';
+import { Button, Loader, Modal } from 'rsuite';
+import CutterOverview from '../../components/overviews/cutter-overview/CutterOverview';
+import CutForm from '../../components/forms/CutForm';
+import TransportForm from '../../components/forms/TransportForm';
 
 const CutterDescription = () => {
 
+    const [cutterAddress, setcutterAddress] = useState('');
+    const [cutterInfo, setCutterInfo] = useState({
+        cif: '',
+        name: '',
+        registrationTime: '',
+        description: '',
+        location: '',
+        phone: '',
+        email: '',
+    });
+    const [cuts, setCuts] = useState([]);
+    const [transports, setTransports] = useState([]);
+
+    const [cutterInfoFetched, setCutterInfoFetched] = useState(false);
+    const [cutsFetched, setCutsFetched] = useState(false);
+    const [transportsFetched, setTransportsFetched] = useState(false);
+
+    const [isCutModalOpen, setIsCutModalOpen] = useState(false);
+    const [isTransportModalOpen, setIsTransportModalOpen] = useState(false);
+
+    useEffect(() => {
+        getCutterInfo();
+        getAssociatedContracts(true);
+    }, [])
+
     let { cif } = useParams();
-    let navigate = useNavigate();
+    const cifHex = web3.utils.asciiToHex(cif);
+
+    const openCutModal = () => {
+        setIsCutModalOpen(true);
+    };
+    const closeCutModal = () => {
+        setIsCutModalOpen(false);
+    };
+
+    const openTransportModal = () => {
+        setIsTransportModalOpen(true);
+    };
+    const closeTransportModal = () => {
+        setIsTransportModalOpen(false);
+    };
+
+    const getCutterInfo = () => {
+        actorContract.methods.cutterCompanies(cifHex).call()
+            .then((address) => {
+                setcutterAddress(address);
+                CutterApi.getCutterByCif(cif)
+                    .then((cutter) => {
+                        setCutterInfo(cutter);
+                        setCutterInfoFetched(true);
+                    })
+            })
+    };
+
+    const reloadCuts = () => {
+        setCutsFetched(false);
+        setCuts([]);
+        getAssociatedContracts(false);
+    }
+    const reloadTransports = () => {
+        setTransportsFetched(false);
+        setTransports([]);
+        getTransports();
+    }
+
+    const getAssociatedContracts = (refreshTransports) => {
+        cuttingContract.methods.getCompanyContractHashesCount(cifHex).call()
+            .then((count) => {
+                for (let i = 0; i < count; i++) {
+                    cuttingContract.methods.companyContractHashes(cifHex, i).call()
+                        .then((contractHash) => {
+                            cuttingContract.methods.contractInfo(contractHash).call()
+                                .then((contract) => {
+                                    CutterApi.getCutterName(cif)
+                                        .then((cutterName) => {
+                                            setCuts(cuts => cuts.concat({
+                                                hash: contractHash,
+                                                company: cutterName['name'],
+                                                agreedNrTrees: contract[2],
+                                                location: contract[3],
+                                                startTime: contract[4],
+                                                nrCutTrees: contract[5]
+                                            }));
+                                        });
+                                });
+                        });
+                }
+                setCutsFetched(true);
+
+                if (refreshTransports) {
+                    getTransports();
+                }
+            });
+    };
+
+    const getTransports = () => {
+        cuts.forEach(cut => {
+            transportContract.methods.getCuttingContractTransportHashesCount(cut.hash).call()
+                .then(count => {
+                    for (let i = 0; i < count; i++) {
+                        transportContract.methods.cuttingContractTransportHashes(cut.hash, i).call()
+                            .then(transportHash => {
+                                transportContract.methods.contractInfo(transportHash).call()
+                                    .then(transport => {
+                                        setTransports(transports => transports.concat({
+                                            hash: transportHash,
+                                            nrTrees: transport[0],
+                                            car: transport[1],
+                                            cutHash: transport[2],
+                                            departureTime: transport[3]
+                                        }));
+                                    });
+                            });
+                    }
+                });
+        });
+        setTransportsFetched(true);
+    };
 
     return (
         <div className={styles.content}>
             <div className={styles.center}>
-                <h2 className={styles.companyName}>ABCDEFGHIJKL SRL IMPEX</h2>
+                {cutterInfoFetched && <h2 className={styles.companyName}>{cutterInfo['name']}</h2>}
             </div>
 
             <div className={styles.descriptionContent}>
-                <div className={styles.descriptionTitle}>Cutting contract description</div>
 
-                <div className={styles.descriptionTable}>
-                    <table style={{ 'marginLeft': 'auto', 'marginRight': 'auto' }}>
-                        <tr>
-                            <td width='600' className={styles.descriptionRowUp}>
-                                <div className={styles.slimText}>Company</div>
-                                <div className={styles.dataText}>ABCDEFGHIJ IMPEX SRL</div>
-                            </td>
-                            <td width='600' className={styles.descriptionRowUp}>
-                                <div className={styles.slimText}>Company CIF</div>
-                                <div className={styles.dataText}>12345</div>
-                            </td>
-                            <td width='100' className={styles.descriptionRowUp}>
-                                <div className={styles.slimText}>Date created</div>
-                                <div className={styles.dataText}>31/03/2022</div>
-                            </td>
-                        </tr>
+                {
+                    cutterInfoFetched ?
+                        <CutterOverview cutterInfo={cutterInfo} cutterAddress={cutterAddress} />
+                        :
+                        <Loader size='lg' backdrop content="loading..." vertical />
+                }
 
-                        <tr>
-                            <td width='600'>
-                                <div className={styles.slimText}>Location</div>
-                                <div className={styles.dataText}>Hello</div>
-                            </td>
-                            <td width='600'>
-                                <div className={styles.slimText}>Agreed nr. trees</div>
-                                <div className={styles.dataText}>450</div>
-                            </td>
-                            <td>
-                                <div className={styles.slimText}>Nr. cut trees</div>
-                                <div className={styles.dataText}>364</div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+            </div>
+
+            <div className={styles.transportsContent}>
+                <div className={styles.descriptionTitle}>Associated cutting contracts</div>
+                <Button className={styles.addBtn} appearance='ghost' onClick={openCutModal}>+ Create cutting contract</Button>
+                <Modal overflow={false} size='md' open={isCutModalOpen} onClose={closeCutModal}>
+                    <Modal.Header>
+                        <Modal.Title>Create cutting contract</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <CutForm closeModal={closeCutModal} reload={reloadCuts} givenCif={cif} />
+                    </Modal.Body>
+                    <Modal.Footer />
+                </Modal>
+
+                {
+                    cutsFetched ?
+                        <CutsList cuts={cuts} />
+                        :
+                        <Loader size='lg' backdrop content="loading..." vertical />
+                }
             </div>
 
             <div className={styles.transportsContent}>
                 <div className={styles.descriptionTitle}>Transports of contract</div>
+                <Button className={styles.addBtn} appearance='ghost' onClick={openTransportModal}>+ Create transport contract</Button>
+                <Modal overflow={false} size='md' open={isTransportModalOpen} onClose={closeTransportModal}>
+                    <Modal.Header>
+                        <Modal.Title>Create transport contract</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <TransportForm closeModal={closeTransportModal} reload={reloadTransports} givenCif={cif}
+                            givenCuts={
+                                cuts.map(cut => ({
+                                    label: cut.hash,
+                                    value: cut.hash
+                                }))
+                            } />
+                    </Modal.Body>
+                    <Modal.Footer />
+                </Modal>
 
-                <List hover bordered className={styles.list}>
-                    {data.map((item, index) => (
-                        <List.Item key={item['hash']} index={index + 1} onClick={() => { navigate("/cut/" + item['hash']) }}>
-                            {/* hash, location & date */}
-                            <FlexboxGrid className={styles.flex}>
-                                <FlexboxGrid.Item colspan={6} className={styles.centerList} style={{ flexDirection: 'column', alignItems: 'flex-start', overflow: 'hidden' }}>
-                                    <div className={styles.titleText}>{item['hash'].substring(0, 6) + '...' + item['hash'].substring(20, 31)}</div>
-                                    <div className={styles.slimText}>
-                                        <div>
-                                            <IoLocationOutline />
-                                            {' ' + item['location']}
-                                            {', Par: ' + item['parcel']}
-                                        </div>
-                                        <div>
-                                            <BsCalendarDate />
-                                            {' ' + item['date']}
-                                        </div>
-                                    </div>
-                                </FlexboxGrid.Item>
-
-                                {/* company */}
-                                <FlexboxGrid.Item colspan={6} className={styles.centerList}>
-                                    <div style={{ textAlign: 'right' }}>
-                                        <div className={styles.slimText}>Company</div>
-                                        <div className={styles.dataText}>{item['company']}</div>
-                                    </div>
-                                </FlexboxGrid.Item>
-
-                                {/* agreed trees */}
-                                <FlexboxGrid.Item colspan={6} className={styles.centerList}>
-                                    <div style={{ textAlign: 'right' }}>
-                                        <div className={styles.slimText}>Agreed nr. trees</div>
-                                        <div className={styles.dataText}>{item['agreedNrTrees']}</div>
-                                    </div>
-                                </FlexboxGrid.Item>
-
-                                {/* cut trees */}
-                                <FlexboxGrid.Item colspan={6} className={styles.centerList}>
-                                    <div style={{ textAlign: 'right' }}>
-                                        <div className={styles.slimText}>Cut nr. trees</div>
-                                        <div className={styles.dataText}>
-                                            {item['cutTrees'] < item['agreedNrTrees'] ? <span style={{ color: '#429321' }}>{item['cutTrees']}</span> : <span>{item['cutTrees']}</span>}
-                                        </div>
-                                    </div>
-                                </FlexboxGrid.Item>
-                            </FlexboxGrid>
-                        </List.Item>
-                    ))}
-                </List>
+                {
+                    transportsFetched ?
+                        <TransportsList transports={transports} />
+                        :
+                        <Loader size='lg' backdrop content="loading..." vertical />
+                }
             </div>
         </div>
     )

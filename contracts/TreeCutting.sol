@@ -8,17 +8,16 @@ contract TreeCutting {
 
     struct CuttingContract {
         bool set;
-        string cif;
+        bytes8 cif;
         uint16 agreedNrTrees;
         string location;
-        uint16 parcel;
-        uint startTime; // in seconds from epoch
+        uint startTime; 
+        uint16 nrCutTrees;
     }
 
-    bytes32[] public contracts;
+    bytes32[] public contractHashes;
     mapping(bytes32 => CuttingContract) public contractInfo;
-    mapping(bytes32 => uint16) public treesLeftForContract;
-    mapping(string => bytes32[]) companyContracts;
+    mapping(bytes8 => bytes32[]) public companyContractHashes;
 
     ActorsRegistration private actors;
 
@@ -26,37 +25,35 @@ contract TreeCutting {
         actors = ActorsRegistration(actorsContractAddress);
     }
 
-    function createContract(string memory cif, uint16 agreedNrTrees, string memory location, uint16 parcel) external returns (bytes32) {
+    function createCuttingContract(bytes8 cif, uint16 agreedNrTrees, string memory location) external returns (bytes32) {
         require(actors.foresters(msg.sender), "Not using a registered forester address");
         require(actors.cutterCompanies(cif) != address(0), "Not using a registered cutter");
-        CuttingContract memory cuttingContract = CuttingContract(true, cif, agreedNrTrees, location, parcel, block.timestamp);
-        bytes32 contractId = keccak256(abi.encode(cuttingContract));
-        contractInfo[contractId] = cuttingContract;
-        treesLeftForContract[contractId] = agreedNrTrees;
-        contracts.push(contractId);
-        companyContracts[cif].push(contractId);
-        return contractId;
+
+        CuttingContract memory cuttingContract = CuttingContract(true, cif, agreedNrTrees, location, block.timestamp, 0);
+        bytes32 cutHash = keccak256(abi.encode(cuttingContract));
+        contractInfo[cutHash] = cuttingContract;
+        contractHashes.push(cutHash);
+        companyContractHashes[cif].push(cutHash);
+        return cutHash;
     }
 
-    function cut(bytes32 contractId) external {
-        require(actors.cutterCompanies(contractInfo[contractId].cif) == msg.sender, "Not using the contract's company address");
-        require(treesLeftForContract[contractId] > 0, "No trees left for this contract");
-        treesLeftForContract[contractId]--;
+    function cut(bytes32 cutHash) external {
+        CuttingContract storage cuttingContract = contractInfo[cutHash];
+        require(actors.cutterCompanies(cuttingContract.cif) == msg.sender, "Not using the contract's company address");
+        require(cuttingContract.agreedNrTrees > cuttingContract.nrCutTrees, "No trees left for this contract");
+
+        cuttingContract.nrCutTrees++;
     }
 
-    function getContractSetAttribute(bytes32 contractId) view external returns (bool) {
-        return contractInfo[contractId].set;
+    function getContractNrCutTrees(bytes32 cutHash) view external returns (uint16) {
+        return contractInfo[cutHash].nrCutTrees;
     }
 
-    function getContractNrCutTrees(bytes32 contractId) view external returns (uint16) {
-        return contractInfo[contractId].agreedNrTrees - treesLeftForContract[contractId];
+    function getAllContractsCount() external view returns (uint) {
+        return contractHashes.length;
     }
 
-    function getContractLocation(bytes32 contractId) view external returns (string memory) {
-        return contractInfo[contractId].location;
-    }
-
-    function getContractsCount() external view returns (uint) {
-        return contracts.length;
+    function getCompanyContractHashesCount(bytes8 cif) external view returns (uint) {
+        return companyContractHashes[cif].length;
     }
 }

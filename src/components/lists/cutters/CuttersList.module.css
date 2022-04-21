@@ -1,0 +1,46 @@
+.list {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 90%;
+    border: 1px #429321 solid;
+}
+
+.center {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 63px;
+}
+
+.titleText {
+    padding-bottom: 5px;
+    white-space: nowrap;
+    font-weight: bolder;
+    font-size: 1.2em;
+}
+
+.slimText {
+    font-size: 0.8em;
+    color: #97969B;
+    font-weight: lighter;
+    padding-bottom: 5px;
+}
+
+.dataText {
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+.list::-webkit-scrollbar {
+    width: 1em;
+}
+
+.list::-webkit-scrollbar-thumb {
+    background-color: #429321;
+    visibility: hidden;
+    border-radius: 4px 4px 4px 4px;
+}
+
+.list:hover::-webkit-scrollbar-thumb {
+    visibility: visible;
+}

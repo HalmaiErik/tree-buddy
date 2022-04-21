@@ -4,7 +4,8 @@ import { serverEndpoint } from "../../common/constants/server-endpoint";
 const endpoint = {
     insertCutter: serverEndpoint + "/new/cutter",
     getAllCutters: serverEndpoint + "/view/cutters",
-    getCutterByCif: serverEndpoint + "/view/cutters/by-cif/"
+    getCutterByCif: serverEndpoint + "/view/cutters/by-cif/",
+    getCutterName: serverEndpoint + "/view/cutter-name/by-cif/"
 }
 
 const insertCutter = (cutter) => {
@@ -33,9 +34,17 @@ const getCutterByCif = (cif) => {
     return RestApiClient.performRequest(request);
 };
 
+const getCutterName = (cif) => {
+    let request = new Request(endpoint.getCutterName + cif, {
+        method: 'GET'
+    });
+    return RestApiClient.performRequest(request);
+}
+
 export {
     insertCutter,
     getAllCutters,
-    getCutterByCif
+    getCutterByCif,
+    getCutterName
 };
 

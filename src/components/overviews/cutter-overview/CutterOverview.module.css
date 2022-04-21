@@ -1,0 +1,24 @@
+.panel {
+    border-color: #429321;
+}
+
+.addressRow {
+    padding-inline: 1em;
+    padding-bottom: 1em;
+}
+
+.descriptionRow {
+    padding-inline: 1em;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.infoRow {
+    padding: 1em;
+}
+
+.slimText {
+    font-size: 0.8em;
+    color: #97969B;
+    font-weight: lighter;
+}

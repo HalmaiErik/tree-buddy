@@ -1,27 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from './MetamaskConnection.module.css';
 import { Button, Popover, Whisper, Dropdown } from "rsuite";
-
+import { useNavigate } from 'react-router-dom';
 
 function MetamaskConnection() {
 
     const [accountAddress, setAccountAddress] = useState("");
+    useEffect(() => {
+        connectButtonOnClick();
+    }, []);
+
     const ref = React.useRef();
 
     const LogoutPopover = ({ address }) => {
 
         const ref = React.useRef();
 
+        let navigate = useNavigate();
+
         const MenuPopover = React.forwardRef(({ onSelect, ...rest }, ref) => (
             <Popover ref={ref} {...rest} full>
                 <Dropdown.Menu onSelect={onSelect}>
-                    <Dropdown.Item eventKey={1}>Disconnect</Dropdown.Item>
+                    <Dropdown.Item eventKey={1}>Dashboard</Dropdown.Item>
+                    <Dropdown.Item eventKey={2}>Disconnect</Dropdown.Item>
                 </Dropdown.Menu>
             </Popover>
         ));
 
         function handleSelectMenu(eventKey, event) {
             if (eventKey == 1) {
+                navigate("/dashboard/" + address);
+            }
+            else if (eventKey == 2) {
                 setAccountAddress("");
             }
 

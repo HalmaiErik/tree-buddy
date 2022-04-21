@@ -5,7 +5,7 @@ import styles from './Header.module.css';
 import { Link } from 'react-router-dom';
 import { successNotification, errorNotification, loadingNotification } from '../../common/notifications/notifications';
 import { toaster } from 'rsuite';
-import web3, { actorContractAddress } from '../../web3';
+import web3, { actorContract } from '../../web3';
 
 
 const Header = () => {
@@ -18,9 +18,6 @@ const Header = () => {
     useEffect(() => {
 
     }, []);
-
-    const abi = require('../../abi/ActorsRegistration.json').abi;
-    const actorContract = new web3.eth.Contract(abi, actorContractAddress);
 
     const NavLink = props => <Nav.Item as={Link} {...props} />
 

@@ -10,6 +10,7 @@ import { CustomProvider, Footer } from 'rsuite';
 import CutDescription from './pages/cut-description/CutDescription';
 import TransportDescription from './pages/transport-description/TransportDescription';
 import CutterDescription from './pages/cutter-description/CutterDescription';
+import CutterDashboard from './pages/cutter-dashboard/CutterDashboard';
 
 const App = () => {
   return (
@@ -26,6 +27,8 @@ const App = () => {
           <Route path='/transport/:hash' element={<TransportDescription />} />
           <Route path='/cut/:hash' element={<CutDescription />} />
           <Route path='/cutter/:cif' element={<CutterDescription />} />
+
+          <Route path='/dashboard/:address' element={<CutterDashboard />} />
         </Routes>
 
         <Footer style={{'backgroundColor': '#1a1d24'}}>

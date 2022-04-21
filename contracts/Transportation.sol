@@ -9,19 +9,16 @@ contract Transportation {
 
     struct Transport {
         uint8 nrTrees;
-        string car;
-        string cif;
-        uint departureTime;
-        string startLocation;
-        string destination;
+        bytes7 car;
+        bytes32 cutHash;
+        uint departureTime; 
     }
 
-    bytes32[] public contracts;
-    mapping(bytes32 => Transport) public transportInfo;
+    bytes32[] public contractHashes;
+    mapping(bytes32 => Transport) public contractInfo;
+    mapping(bytes32 => bytes32[]) public cuttingContractTransportHashes; // cutting contract => transport contracts
     mapping(bytes32 => uint16) public treesTransported; // cutting contract => trees transported
-    mapping(bytes32 => bytes32[]) public cuttingContractTransports; // cutting contract => transport contracts
-    mapping(string => bytes32[]) public carTransports; // number plate => transport contracts
-    mapping(string => bytes32[]) public companyTransports; // cif => transport contracts
+    mapping(bytes7 => bytes32[]) public carTransports;
 
     ActorsRegistration private actors;
     TreeCutting private cutting;
@@ -31,24 +28,28 @@ contract Transportation {
         cutting = TreeCutting(cuttingContractAddress);
     }
     
-    function createTransportContract(uint8 nrTrees, string memory car, string memory cif, string memory destination, bytes32 cuttingId) external returns (bytes32) {
+    function createTransportContract(uint8 nrTrees, bytes7 car, bytes32 cutHash) external returns (bytes32) {
         require(actors.foresters(msg.sender), "Not using a registered forester address");
-        require(cutting.getContractSetAttribute(cuttingId), "An already created cutting contract needs to be used");
-        require(actors.cutterCompanies(cif) != address(0), "Not using a registered cutter");
-        require(treesTransported[cuttingId] + nrTrees <= cutting.getContractNrCutTrees(cuttingId), 
+
+        uint16 newNrTreesTransported = treesTransported[cutHash] + nrTrees;
+        require(newNrTreesTransported <= cutting.getContractNrCutTrees(cutHash), 
                 "Cannot transport more trees than what has been cut for cutting contract");
-        treesTransported[cuttingId] += nrTrees;
-        Transport memory transport = Transport(nrTrees, car, cif, block.timestamp, cutting.getContractLocation(cuttingId), destination);
+        treesTransported[cutHash] = newNrTreesTransported;
+
+        Transport memory transport = Transport(nrTrees, car, cutHash, block.timestamp);
         bytes32 transportId = keccak256(abi.encode(transport));
-        transportInfo[transportId] = transport;
-        cuttingContractTransports[cuttingId].push(transportId);
+        contractInfo[transportId] = transport;
+        cuttingContractTransportHashes[cutHash].push(transportId);
         carTransports[car].push(transportId);
-        companyTransports[cif].push(transportId);
-        contracts.push(transportId);
+        contractHashes.push(transportId);
         return transportId;
     }
 
-    function getContractsCount() external view returns (uint) {
-        return contracts.length;
+    function getAllContractsCount() external view returns (uint) {
+        return contractHashes.length;
+    }
+
+    function getCuttingContractTransportHashesCount(bytes32 cutHash) external view returns (uint) {
+        return cuttingContractTransportHashes[cutHash].length;
     }
 }

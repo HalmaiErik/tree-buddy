@@ -1,0 +1,45 @@
+.list {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    border: 1px #429321 solid;
+    height: 400px;
+}
+
+.centerList {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 63px;
+}
+
+.titleText {
+    font-weight: bolder;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.slimText {
+    font-size: 0.8em;
+    color: #97969B;
+    font-weight: lighter;
+}
+
+.dataText {
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+.list::-webkit-scrollbar {
+    width: 1em;
+}
+
+.list::-webkit-scrollbar-thumb {
+    background-color: #429321;
+    visibility: hidden;
+    border-radius: 4px 4px 4px 4px;
+}
+
+.list:hover::-webkit-scrollbar-thumb {
+    visibility: visible;
+}

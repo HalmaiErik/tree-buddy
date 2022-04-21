@@ -8,10 +8,10 @@ const successNotification = (content) => {
     );
 };
 
-const errorNotification = (content) => {
+const errorNotification = (error) => {
     return (
         <Notification type='error' header='Transaction failed' closable>
-            <div>{content}</div>
+            <div>{error.message}</div>
         </Notification>
     );
 };
