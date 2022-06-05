@@ -7,8 +7,7 @@ import "./ActorsRegistration.sol";
 contract TreeCutting {
 
     struct CuttingContract {
-        bool set;
-        bytes8 cif;
+        bytes8 tin;
         uint16 agreedNrTrees;
         string location;
         uint startTime; 
@@ -21,25 +20,27 @@ contract TreeCutting {
 
     ActorsRegistration private actors;
 
+    event CutCreated(bytes32 cutHash);
+
     constructor(address actorsContractAddress) {
         actors = ActorsRegistration(actorsContractAddress);
     }
 
-    function createCuttingContract(bytes8 cif, uint16 agreedNrTrees, string memory location) external returns (bytes32) {
+    function createCuttingContract(bytes8 tin, uint16 agreedNrTrees, string memory location) external {
         require(actors.foresters(msg.sender), "Not using a registered forester address");
-        require(actors.cutterCompanies(cif) != address(0), "Not using a registered cutter");
+        require(actors.getCompanyAddress(tin) != address(0), "Not using a registered cutter");
 
-        CuttingContract memory cuttingContract = CuttingContract(true, cif, agreedNrTrees, location, block.timestamp, 0);
+        CuttingContract memory cuttingContract = CuttingContract(tin, agreedNrTrees, location, block.timestamp, 0);
         bytes32 cutHash = keccak256(abi.encode(cuttingContract));
         contractInfo[cutHash] = cuttingContract;
         contractHashes.push(cutHash);
-        companyContractHashes[cif].push(cutHash);
-        return cutHash;
+        companyContractHashes[tin].push(cutHash);
+        emit CutCreated(cutHash);
     }
 
     function cut(bytes32 cutHash) external {
         CuttingContract storage cuttingContract = contractInfo[cutHash];
-        require(actors.cutterCompanies(cuttingContract.cif) == msg.sender, "Not using the contract's company address");
+        require(actors.getCompanyAddress(cuttingContract.tin) == msg.sender, "Not using the contract's company address");
         require(cuttingContract.agreedNrTrees > cuttingContract.nrCutTrees, "No trees left for this contract");
 
         cuttingContract.nrCutTrees++;
@@ -53,7 +54,7 @@ contract TreeCutting {
         return contractHashes.length;
     }
 
-    function getCompanyContractHashesCount(bytes8 cif) external view returns (uint) {
-        return companyContractHashes[cif].length;
+    function getCompanyContractHashesCount(bytes8 tin) external view returns (uint) {
+        return companyContractHashes[tin].length;
     }
 }

@@ -3,6 +3,7 @@ import { List, FlexboxGrid } from 'rsuite';
 import { IoLocationOutline } from 'react-icons/io5';
 import { BsCalendarDate } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
+import { convertEpochToDate } from '../../../common/util-funcs/epoch-convert';
 
 const CutsList = (props) => {
 
@@ -23,7 +24,7 @@ const CutsList = (props) => {
                                 </div>
                                 <div>
                                     <BsCalendarDate />
-                                    {' ' + item['startTime']}
+                                    {' ' + convertEpochToDate(item['startTime'])}
                                 </div>
                             </div>
                         </FlexboxGrid.Item>

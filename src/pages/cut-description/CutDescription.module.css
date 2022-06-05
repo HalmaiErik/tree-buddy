@@ -9,16 +9,28 @@
     margin-top: 2em;
 }
 
+.cutBtn {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
 .center {
     text-align: center;
 }
 
+.addBtn {
+    margin-left: 5%;
+}
+
 .descriptionContent {
-    margin-top: 3em;
+    margin-top: 2em;
     width: 80%;
     margin-left: auto;
     margin-right: auto;
-    padding: 1.5em;
+    margin-bottom: 4em;
 }
 
 .descriptionTitle {
@@ -29,34 +41,10 @@
     margin-bottom: 1.5em;
 }
 
-.descriptionTable {
-    margin-left: auto;
-    margin-right: auto;
-    padding: 20px;
-    border: 1px #429321 solid;
-    border-radius: 10px 10px 10px 10px;
-}
-
-.descriptionRowUp {
-    padding-bottom: 25px;
-    word-wrap: break-word;
-}
-
 .titleText {
     font-weight: bolder;
     font-size: 1.2em;
     text-align: center;
-}
-
-.slimText {
-    font-size: 0.8em;
-    color: #97969B;
-    font-weight: lighter;
-}
-
-.dataText {
-    font-size: 1.2em;
-    font-weight: 500;
 }
 
 .transportsContent {
@@ -64,31 +52,10 @@
     margin-bottom: 1.5em;
 }
 
-.list {
+.resultHash {
+    margin-top: 5px;
+    display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 90%;
-    border: 1px #429321 solid;
-    height: 400px;
-}
-
-.centerList {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    height: 63px;
-}
-
-.list::-webkit-scrollbar {
-    width: 1em;
-}
-
-.list::-webkit-scrollbar-thumb {
-    background-color: #429321;
-    visibility: hidden;
-    border-radius: 4px 4px 4px 4px;
-}
-
-.list:hover::-webkit-scrollbar-thumb {
-    visibility: visible;
+    margin-bottom: 15px;
 }

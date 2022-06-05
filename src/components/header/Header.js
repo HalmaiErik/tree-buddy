@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Nav, Navbar, Modal, Form } from 'rsuite'
-import MetamaskConnection from './MetamaskConnection/MetamaskConnection'
 import styles from './Header.module.css';
 import { Link } from 'react-router-dom';
 import { successNotification, errorNotification, loadingNotification } from '../../common/notifications/notifications';
 import { toaster } from 'rsuite';
 import web3, { actorContract } from '../../web3';
-
+import MetamaskConnection from './MetamaskConnection/MetamaskConnection';
+import { getAccount } from './MetamaskConnection/MetamaskConnection';
 
 const Header = () => {
 
@@ -15,8 +15,10 @@ const Header = () => {
         address: ''
     });
 
-    useEffect(() => {
+    const [isForester, setIsForester] = useState(false);
 
+    useEffect(() => {
+        checkIfForester();
     }, []);
 
     const NavLink = props => <Nav.Item as={Link} {...props} />
@@ -49,6 +51,15 @@ const Header = () => {
         });
     };
 
+    const checkIfForester = () => {
+        getAccount().then(account => {
+            actorContract.methods.foresters(account).call()
+            .then(resp => {
+                setIsForester(resp);
+            });
+        });
+    };
+
     return (
         <Navbar>
             <Navbar.Brand as={Link} to="/">
@@ -60,7 +71,7 @@ const Header = () => {
                 <NavLink to="/cutters">Cutters</NavLink>
             </Nav>
             <Nav pullRight className={styles.wallet}>
-                <Button appearance='ghost' onClick={openModal} className={styles.addForesterBtn}>Add forester</Button>
+                { isForester && <Button appearance='ghost' onClick={openModal} className={styles.addForesterBtn}>Add forester</Button> }
                 <Modal overflow={false} size='md' open={isModalOpen} onClose={closeModal}>
                     <Modal.Header>
                         <Modal.Title>Add forester</Modal.Title>

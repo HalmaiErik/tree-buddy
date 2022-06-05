@@ -23,12 +23,14 @@ contract Transportation {
     ActorsRegistration private actors;
     TreeCutting private cutting;
 
+    event TransportCreated(bytes32 transportHash);
+
     constructor(address actorsContractAddress, address cuttingContractAddress) {
         actors = ActorsRegistration(actorsContractAddress);
         cutting = TreeCutting(cuttingContractAddress);
     }
     
-    function createTransportContract(uint8 nrTrees, bytes7 car, bytes32 cutHash) external returns (bytes32) {
+    function createTransportContract(uint8 nrTrees, bytes7 car, bytes32 cutHash) external {
         require(actors.foresters(msg.sender), "Not using a registered forester address");
 
         uint16 newNrTreesTransported = treesTransported[cutHash] + nrTrees;
@@ -37,12 +39,12 @@ contract Transportation {
         treesTransported[cutHash] = newNrTreesTransported;
 
         Transport memory transport = Transport(nrTrees, car, cutHash, block.timestamp);
-        bytes32 transportId = keccak256(abi.encode(transport));
-        contractInfo[transportId] = transport;
-        cuttingContractTransportHashes[cutHash].push(transportId);
-        carTransports[car].push(transportId);
-        contractHashes.push(transportId);
-        return transportId;
+        bytes32 transportHash = keccak256(abi.encode(transport));
+        contractInfo[transportHash] = transport;
+        cuttingContractTransportHashes[cutHash].push(transportHash);
+        carTransports[car].push(transportHash);
+        contractHashes.push(transportHash);
+        emit TransportCreated(transportHash);
     }
 
     function getAllContractsCount() external view returns (uint) {
@@ -51,5 +53,9 @@ contract Transportation {
 
     function getCuttingContractTransportHashesCount(bytes32 cutHash) external view returns (uint) {
         return cuttingContractTransportHashes[cutHash].length;
+    }
+
+    function getCarTransportHashesCount(bytes7 car) external view returns (uint) {
+        return carTransports[car].length;
     }
 }

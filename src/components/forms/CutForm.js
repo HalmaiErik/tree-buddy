@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import web3, { cuttingContract } from '../../web3';
-import { Button, ButtonToolbar, Form, toaster } from 'rsuite';
+import { Button, ButtonToolbar, Form, Schema, toaster } from 'rsuite';
 import { successNotification, errorNotification, loadingNotification } from '../../common/notifications/notifications';
 
-const CutForm = ({ closeModal, reload, givenCif }) => {
+const CutForm = ({ closeFormModal, reload, openResultModal, givenCif }) => {
 
     const [formValue, setFormValue] = useState({
         cif: givenCif,
@@ -12,9 +12,20 @@ const CutForm = ({ closeModal, reload, givenCif }) => {
         parcel: 0
     });
 
+    const model = Schema.Model({
+        cif: Schema.Types.StringType()
+            .isRequired('This field is required')
+            .pattern(/(?<![0-9])[0-9]{8}(?![0-9])/, 'The CIF must be of 8 numbers'),
+        agreedNrTrees: Schema.Types.NumberType()
+            .isRequired('This field is required')
+            .range(0, 65535, 'Please enter a number between 1 and 65535'),
+        location: Schema.Types.StringType()
+            .isRequired('This field is required'),
+    });
+
     const submitForm = () => {
         createCuttingContract();
-        closeModal();
+        closeFormModal();
         setFormValue({
             cif: givenCif,
             agreedNrTrees: 0,
@@ -31,19 +42,24 @@ const CutForm = ({ closeModal, reload, givenCif }) => {
             toaster.push(errorNotification(e), { placement: 'bottomEnd' });
         }).on('transactionHash', (txHash) => {
             toaster.push(loadingNotification(txHash), { placement: 'bottomEnd' });
-        }).then(() => {
+        }).then(result => {
             toaster.push(successNotification('Cutting contract created'), { placement: 'bottomEnd' });
             reload();
-        }).catch((e) => {
-            toaster.push(errorNotification(e), { placement: 'bottomEnd' });
+            openResultModal(result.events.CutCreated.returnValues.cutHash);
         });
     };
 
     return (
-        <Form fluid onChange={setFormValue} formValue={formValue}>
-            <Form.Group controlId='cif-9' contentEditable={false}>
+
+        <Form fluid onChange={setFormValue} formValue={formValue} model={model}>
+            <Form.Group controlId='cif-9'>
                 <Form.ControlLabel>CIF</Form.ControlLabel>
-                <Form.Control readOnly name="cif" />
+                {
+                    !!givenCif ?
+                        <Form.Control readOnly name="cif" />
+                        :
+                        <Form.Control name="cif" />
+                }
             </Form.Group>
             <Form.Group controlId="agreedNrTrees-9">
                 <Form.ControlLabel>Agreed nr. trees</Form.ControlLabel>
@@ -58,7 +74,7 @@ const CutForm = ({ closeModal, reload, givenCif }) => {
             <Form.Group>
                 <ButtonToolbar style={{ 'float': 'right' }}>
                     <Button appearance="primary" onClick={submitForm}>Submit</Button>
-                    <Button appearance="subtle" onClick={closeModal}>Cancel</Button>
+                    <Button appearance="subtle" onClick={closeFormModal}>Cancel</Button>
                 </ButtonToolbar>
             </Form.Group>
         </Form>

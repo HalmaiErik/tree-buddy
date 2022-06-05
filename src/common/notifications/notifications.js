@@ -9,12 +9,27 @@ const successNotification = (content) => {
 };
 
 const errorNotification = (error) => {
+    var reason = error.message;
+    if (error.code == 4001) {
+        reason = 'User denied the transaction';
+    }
+    else if (error.code == -32603) {
+        reason = getRPCErrorMessage(error);
+    }
+
     return (
         <Notification type='error' header='Transaction failed' closable>
-            <div>{error.message}</div>
+            <div>{reason}</div>
         </Notification>
     );
 };
+
+function getRPCErrorMessage(err){
+    const open = err.message.indexOf('revert');
+    const close = err.message.indexOf('"', open + 7);
+    const reason = err.message.substring(open + 7, close);
+    return reason;
+}
 
 const loadingNotification = (txid) => {
     return (

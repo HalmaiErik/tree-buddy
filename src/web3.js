@@ -2,9 +2,16 @@ import Web3 from "web3";
 const web3 = new Web3(window.ethereum);
 export default web3;
 
-const actorContractAddress = "0x7B31a38A00A65F9ff6897D8B280aC0f865a3DeE6";
-const cuttingContractAddress = "0x0C5704C55FAc293a58b0FDe57d12CB9f27f2b878";
-const transportationContractAddress = "0x907855D7463872cda23AC08FcC2b423a07D48781";
+/*
+Rinkeby:
+- Actor: 0xbdB94F49303959C138FD2fC96051e6b422179E63
+- Cutting: 0x638F9F041bba6c73F77b0cfDA9f852BE43990eca
+- Transportation: 0x1E5bfe0636ea1eB7057fF5532A796FfBaFfB8c22
+*/
+
+const actorContractAddress = "0xbdB94F49303959C138FD2fC96051e6b422179E63";
+const cuttingContractAddress = "0x638F9F041bba6c73F77b0cfDA9f852BE43990eca";
+const transportationContractAddress = "0x1E5bfe0636ea1eB7057fF5532A796FfBaFfB8c22";
 
 const abiActorContract = require('./abi/ActorsRegistration.json').abi;
 const abiCuttingContract = require('./abi/TreeCutting.json').abi;

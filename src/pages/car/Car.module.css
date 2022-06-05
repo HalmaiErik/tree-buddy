@@ -1,0 +1,27 @@
+.content {
+    min-height: 100%;
+    height: fit-content;
+    justify-content: center;
+    margin-bottom: 2em;
+}
+
+.center {
+    text-align: center;
+}
+
+.carNumberPlate {
+    margin-top: 1em;
+}
+
+.addBtn {
+    margin-left: 5%;
+}
+
+.descriptionTitle {
+    margin-top: 2em;
+    font-size: 1.4em;
+    color: #97969B;
+    font-weight: lighter;
+    text-align: center;
+    margin-bottom: 1em;
+}

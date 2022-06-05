@@ -1,215 +1,152 @@
 import styles from './Transports.module.css'
-import { List, FlexboxGrid } from 'rsuite';
-import { AiOutlineCar } from "react-icons/ai";
-import { BsCalendarDate } from "react-icons/bs";
-import { AutoComplete,  InputGroup } from 'rsuite';
+import { Loader, Button, Modal, InputGroup, AutoComplete, Input } from 'rsuite';
 import Search from '@rsuite/icons/Search';
-import { useNavigate } from 'react-router-dom';
-
-const data = [
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    nrTrees: 6,
-    car: 'CJ77EXH',
-    cif: '12345',
-    departureTime: '17/03/2022 17:30:21',
-    startLocation: 'Cluj-Napoca, Faget',
-    destination: 'Brasov'
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    nrTrees: 6,
-    car: 'CJ77EXH',
-    cif: '12345',
-    departureTime: '17/03/2022 17:30:21',
-    startLocation: 'Cluj-Napoca, Faget',
-    destination: 'Brasov'
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    nrTrees: 6,
-    car: 'CJ77EXH',
-    cif: '12345',
-    departureTime: '17/03/2022 17:30:21',
-    startLocation: 'Cluj-Napoca, Faget',
-    destination: 'Brasov'
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    nrTrees: 6,
-    car: 'CJ77EXH',
-    cif: '12345',
-    departureTime: '17/03/2022 17:30:21',
-    startLocation: 'Cluj-Napoca, Faget',
-    destination: 'Brasov'
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    nrTrees: 6,
-    car: 'CJ77EXH',
-    cif: '12345',
-    departureTime: '17/03/2022 17:30:21',
-    startLocation: 'Cluj-Napoca, Faget',
-    destination: 'Brasov'
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    nrTrees: 6,
-    car: 'CJ77EXH',
-    cif: '12345',
-    departureTime: '17/03/2022 17:30:21',
-    startLocation: 'Cluj-Napoca, Faget',
-    destination: 'Brasov'
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    nrTrees: 6,
-    car: 'CJ77EXH',
-    cif: '12345',
-    departureTime: '17/03/2022 17:30:21',
-    startLocation: 'Cluj-Napoca, Faget',
-    destination: 'Brasov'
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    nrTrees: 6,
-    car: 'CJ77EXH',
-    cif: '12345',
-    departureTime: '17/03/2022 17:30:21',
-    startLocation: 'Cluj-Napoca, Faget',
-    destination: 'Brasov'
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    nrTrees: 6,
-    car: 'CJ77EXH',
-    cif: '12345',
-    departureTime: '17/03/2022 17:30:21',
-    startLocation: 'Cluj-Napoca, Faget',
-    destination: 'Brasov'
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    nrTrees: 6,
-    car: 'CJ77EXH',
-    cif: '12345',
-    departureTime: '17/03/2022 17:30:21',
-    startLocation: 'Cluj-Napoca, Faget',
-    destination: 'Brasov'
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    nrTrees: 6,
-    car: 'CJ77EXH',
-    cif: '12345',
-    departureTime: '17/03/2022 17:30:21',
-    startLocation: 'Cluj-Napoca, Faget',
-    destination: 'Brasov'
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    nrTrees: 6,
-    car: 'CJ77EXH',
-    cif: '12345',
-    departureTime: '17/03/2022 17:30:21',
-    startLocation: 'Cluj-Napoca, Faget',
-    destination: 'Brasov'
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    nrTrees: 6,
-    car: 'CJ77EXH',
-    cif: '12345',
-    departureTime: '17/03/2022 17:30:21',
-    startLocation: 'Cluj-Napoca, Faget',
-    destination: 'Brasov'
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    nrTrees: 6,
-    car: 'CJ77EXH',
-    cif: '12345',
-    departureTime: '17/03/2022 17:30:21',
-    startLocation: 'Cluj-Napoca, Faget',
-    destination: 'Brasov'
-  }
-]
+import { useState, useEffect } from 'react';
+import { actorContract, transportContract} from '../../web3';
+import TransportForm from '../../components/forms/TransportForm';
+import TransportsList from '../../components/lists/transports/TransportsList';
+import { QRCodeCanvas } from 'qrcode.react';
+import { clientUrl } from '../../common/constants/client-url';
+import { getAccount } from '../../components/header/MetamaskConnection/MetamaskConnection';
 
 const Transports = () => {
 
-  let navigate = useNavigate();
+    const [transports, setTransports] = useState([]);
+    const [searchedTransports, setSearchedTransports] = useState([]);
+    const [transportsFetched, setTransportsFetched] = useState(false);
 
-  return (
-    <>
-      <h2 className={styles.pageTitle}>Transportation contracts</h2>
-      
-      <div className={styles.search}>
-            <InputGroup inside>
-              <AutoComplete data={data} placeholder='Search for transport contract hash, car number plate or cutting company CIF' />
-              <InputGroup.Addon>
-                <Search />
-              </InputGroup.Addon>
-            </InputGroup>
-      </div>
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isResultModalOpen, setIsResultModalOpen] = useState(false);
 
-      <div className={styles.content}>
-        <List hover bordered className={styles.list}>
-          {data.map((item, index) => (
-            <List.Item key={item['hash']} index={index + 1} onClick={() => {navigate("/transport/" + item['hash'])}}>
-              {/* hash, departure time, car */}
-              <FlexboxGrid>
-                <FlexboxGrid.Item colspan={6} className={styles.center} style={{ flexDirection: 'column', alignItems: 'flex-start', overflow: 'hidden' }}>
-                  <div className={styles.titleText}>{item['hash'].substring(0, 6) + '...' + item['hash'].substring(20, 31)}</div>
-                  <div className={styles.slimText}>
-                    <div>
-                      <BsCalendarDate />
-                      {' ' + item['departureTime']}
-                    </div>
-                    <div>
-                      <AiOutlineCar />
-                      {' ' + item['car']}
-                    </div>
-                  </div>
-                </FlexboxGrid.Item>
+    const [resultHash, setResultHash] = useState('');
 
-                {/* company */}
-                <FlexboxGrid.Item colspan={4} className={styles.center}>
-                  <div style={{ textAlign: 'right' }}>
-                    <div className={styles.slimText}>Cutter CIF</div>
-                    <div className={styles.dataText}>{item['cif']}</div>
-                  </div>
-                </FlexboxGrid.Item>
+    const [isForester, setIsForester] = useState(false);
 
-                {/* transported trees */}
-                <FlexboxGrid.Item colspan={4} className={styles.center}>
-                  <div style={{ textAlign: 'right' }}>
-                    <div className={styles.slimText}>Transported trees</div>
-                    <div className={styles.dataText}>{item['nrTrees']}</div>
-                  </div>
-                </FlexboxGrid.Item>
+    useEffect(() => {
+        getTransports();
+        checkIfForester();
+    }, []);
 
-                {/* start location */}
-                <FlexboxGrid.Item colspan={5} className={styles.center}>
-                  <div style={{ textAlign: 'right' }}>
-                    <div className={styles.slimText}>Start location</div>
-                    <div className={styles.dataText}>{item['startLocation']}</div>
-                  </div>
-                </FlexboxGrid.Item>
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
 
-                {/* destination */}
-                <FlexboxGrid.Item colspan={5} className={styles.center}>
-                  <div style={{ textAlign: 'right' }}>
-                    <div className={styles.slimText}>Destination</div>
-                    <div className={styles.dataText}>{item['destination']}</div>
-                  </div>
-                </FlexboxGrid.Item>
-              </FlexboxGrid>
-            </List.Item>
-          ))}
-        </List>
-      </div>
-    </>
-  )
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const openResultModal = (hash) => {
+        setResultHash(hash);
+        setIsResultModalOpen(true);
+    };
+
+    const closeResultModal = () => {
+        setIsResultModalOpen(false);
+    };
+
+    const reload = () => {
+        setTransportsFetched(false);
+        setTransports([]);
+        setSearchedTransports([]);
+        getTransports();
+    }
+
+    const checkIfForester = () => {
+        getAccount().then(account => {
+            actorContract.methods.foresters(account).call()
+            .then(resp => {
+                setIsForester(resp);
+            });
+        });
+    };
+
+    const getTransports = () => {
+        transportContract.methods.getAllContractsCount().call()
+            .then(count => {
+                for (let i = 0; i < count; i++) {
+                    transportContract.methods.contractHashes(i).call()
+                        .then(transportHash => {
+                            transportContract.methods.contractInfo(transportHash).call()
+                                .then(transport => {
+                                    const trans = {
+                                        hash: transportHash,
+                                        nrTrees: transport[0],
+                                        car: transport[1],
+                                        cutHash: transport[2],
+                                        departureTime: transport[3]
+                                    };
+                                    setTransports(transports => transports.concat(trans));
+                                    setSearchedTransports(searchedTransports => searchedTransports.concat(trans));
+                                });
+                        });
+                }
+                setTransportsFetched(true);
+            });
+    };
+
+    const searchHandler = (value) => {
+        var lowerCase = value.toLowerCase();
+
+        if (lowerCase === '') {
+            setSearchedTransports(transports);
+        }
+        else {
+            const filteredResults = transports.filter((transport) => {
+                return transport.hash.startsWith(lowerCase);
+            });
+
+            setSearchedTransports(filteredResults);
+        }
+    };
+
+    return (
+        <>
+            <h2 className={styles.pageTitle}>Transportation contracts</h2>
+
+            <div className={styles.addButton}>
+                { isForester && <Button appearance='ghost' onClick={openModal}>+ Create transport contract</Button> }
+                <Modal overflow={false} size='md' open={isModalOpen} onClose={closeModal}>
+                    <Modal.Header>
+                        <Modal.Title>Create transport contract</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <TransportForm closeModal={closeModal} openResultModal={openResultModal} reload={reload} givenCif='' givenCuts={[]} givenCar='' />
+                    </Modal.Body>
+                    <Modal.Footer />
+                </Modal>
+
+                <Modal overflow={false} size='md' open={isResultModalOpen} onClose={closeResultModal}>
+                    <Modal.Header>
+                        <Modal.Title>Created transport contract</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <QRCodeCanvas value={clientUrl + '/transport/' + resultHash} className={styles.resultHash} />
+                        <p>Contract hash: {resultHash}</p>
+                        <p><i>Please make sure to screenshot the QR code!</i></p>
+                    </Modal.Body>
+                    <Modal.Footer />
+                </Modal>
+            </div>
+
+            <div className={styles.search}>
+                <InputGroup inside>
+                    <Input placeholder='Search for transport contract hash, car number plate or cutting company CIF' onChange={searchHandler} />
+                    <InputGroup.Addon>
+                        <Search />
+                    </InputGroup.Addon>
+                </InputGroup>
+            </div>
+
+            <div className={styles.content}>
+                {
+                    transportsFetched ?
+                        <TransportsList transports={searchedTransports} />
+                        :
+                        <Loader size='lg' backdrop content="loading..." vertical />
+                }
+            </div>
+        </>
+    )
 }
 
 export default Transports

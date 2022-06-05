@@ -1,234 +1,157 @@
 import styles from './Cuts.module.css'
-import { List, FlexboxGrid } from 'rsuite';
-import { IoLocationOutline } from 'react-icons/io5';
-import { BsCalendarDate } from "react-icons/bs";
-import { AutoComplete,  InputGroup } from 'rsuite';
+import { Modal, Button, Loader, Input, Tooltip } from 'rsuite';
+import { InputGroup } from 'rsuite';
 import Search from '@rsuite/icons/Search';
-import { useNavigate } from 'react-router-dom';
-
-const data = [
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c11119eb748d74e2',
-    company: 'ABC SRL',
-    cif: '12345',
-    agreedNrTrees: 400,
-    cutTrees: 245,
-    location: 'Cluj-Napoca, Faget',
-    parcel: 6,
-    date: '2017.10.13 14:50',
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c77779eb748d9999',
-    company: 'ABC SRL',
-    cif: '12345',
-    agreedNrTrees: 400,
-    cutTrees: 400,
-    location: 'Cluj-Napoca, Faget',
-    parcel: 6,
-    date: '2017.10.13 14:50',
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d7777',
-    company: 'ABC SRL',
-    cif: '12345',
-    agreedNrTrees: 400,
-    cutTrees: 400,
-    location: 'Cluj-Napoca, Faget',
-    parcel: 6,
-    date: '2017.10.13 14:50',
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    company: 'ABC SRL',
-    cif: '12345',
-    agreedNrTrees: 400,
-    cutTrees: 100,
-    location: 'Cluj-Napoca, Faget',
-    parcel: 6,
-    date: '2017.10.13 14:50',
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    company: 'ABC SRL',
-    cif: '12345',
-    agreedNrTrees: 400,
-    cutTrees: 400,
-    location: 'Cluj-Napoca, Faget',
-    parcel: 6,
-    date: '2017.10.13 14:50',
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    company: 'ABC SRL',
-    cif: '12345',
-    agreedNrTrees: 400,
-    cutTrees: 245,
-    location: 'Cluj-Napoca, Faget',
-    parcel: 6,
-    date: '2017.10.13 14:50',
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    company: 'ABC SRL',
-    cif: '12345',
-    agreedNrTrees: 400,
-    cutTrees: 125,
-    location: 'Cluj-Napoca, Faget',
-    parcel: 6,
-    date: '2017.10.13 14:50',
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    company: 'ABC SRL',
-    cif: '12345',
-    agreedNrTrees: 400,
-    cutTrees: 245,
-    location: 'Cluj-Napoca, Faget',
-    parcel: 6,
-    date: '2017.10.13 14:50',
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    company: 'ABC SRL',
-    cif: '12345',
-    agreedNrTrees: 400,
-    cutTrees: 245,
-    location: 'Cluj-Napoca, Faget',
-    parcel: 6,
-    date: '2017.10.13 14:50',
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    company: 'ABC SRL',
-    cif: '12345',
-    agreedNrTrees: 400,
-    cutTrees: 245,
-    location: 'Cluj-Napoca, Faget',
-    parcel: 6,
-    date: '2017.10.13 14:50',
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    company: 'ABC SRL',
-    cif: '12345',
-    agreedNrTrees: 400,
-    cutTrees: 245,
-    location: 'Cluj-Napoca, Faget',
-    parcel: 6,
-    date: '2017.10.13 14:50',
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    company: 'ABC SRL',
-    cif: '12345',
-    agreedNrTrees: 400,
-    cutTrees: 245,
-    location: 'Cluj-Napoca, Faget',
-    parcel: 6,
-    date: '2017.10.13 14:50',
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    company: 'ABC SRL',
-    cif: '12345',
-    agreedNrTrees: 400,
-    cutTrees: 245,
-    location: 'Cluj-Napoca, Faget',
-    parcel: 6,
-    date: '2017.10.13 14:50',
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    company: 'ABC SRL',
-    cif: '12345',
-    agreedNrTrees: 400,
-    cutTrees: 245,
-    location: 'Cluj-Napoca, Faget',
-    parcel: 6,
-    date: '2017.10.13 14:50',
-  },
-  {
-    hash: '0x1e2A66efB426D148dA4E9B73c18109eb748d74e2',
-    company: 'ABC SRL',
-    cif: '12345',
-    agreedNrTrees: 400,
-    cutTrees: 245,
-    location: 'Cluj-Napoca, Faget',
-    parcel: 6,
-    date: '2017.10.13 14:50',
-  }
-];
+import CutsList from '../../components/lists/cuts/CutsList';
+import { useState, useEffect } from 'react';
+import CutForm from '../../components/forms/CutForm';
+import { actorContract, cuttingContract } from '../../web3';
+import { QRCodeCanvas } from 'qrcode.react';
+import { clientUrl } from '../../common/constants/client-url';
+import { getAccount } from '../../components/header/MetamaskConnection/MetamaskConnection';
 
 const Cuts = () => {
 
-  let navigate = useNavigate();
+    const [cuts, setCuts] = useState([]);
+    const [searchedCuts, setSearchedCuts] = useState([]);
+    const [cutsFetched, setCutsFetched] = useState(false);
 
-  return (
-    <>
-     <h2 className={styles.pageTitle}>Cutting contracts</h2>
-      
-      <div className={styles.search}>
-            <InputGroup inside>
-              <AutoComplete data={data} placeholder='Search for cutting contract hash, cutting company name or CIF' />
-              <InputGroup.Addon>
-                <Search />
-              </InputGroup.Addon>
-            </InputGroup>
-      </div>
+    const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+    const [isResultModalOpen, setIsResultModalOpen] = useState(false);
 
-      <div className={styles.content}>
-        <List hover bordered className={styles.list}>
-          {data.map((item, index) => (
-            <List.Item key={item['hash']} index={index + 1} onClick={() => {navigate("/cut/" + item['hash'])}}>
-              {/* hash, location & date */}
-              <FlexboxGrid className={styles.flex}>
-                <FlexboxGrid.Item colspan={6} className={styles.center} style={{ flexDirection: 'column', alignItems: 'flex-start', overflow: 'hidden' }}>
-                  <div className={styles.titleText}>{item['hash'].substring(0, 6) + '...' + item['hash'].substring(20, 31)}</div>
-                  <div className={styles.slimText}>
-                    <div>
-                      <IoLocationOutline />
-                      {' ' + item['location']}
-                      {', Par: ' + item['parcel']}
-                    </div>
-                    <div>
-                      <BsCalendarDate />
-                      {' ' + item['date']}
-                    </div>
-                  </div>
-                </FlexboxGrid.Item>
+    const [resultHash, setResultHash] = useState('');
 
-                {/* company */}
-                <FlexboxGrid.Item colspan={6} className={styles.center}>
-                  <div style={{ textAlign: 'right' }}>
-                    <div className={styles.slimText}>Company</div>
-                    <div className={styles.dataText}>{item['company']}</div>
-                  </div>
-                </FlexboxGrid.Item>
+    const [isForester, setIsForester] = useState(false);
 
-                {/* agreed trees */}
-                <FlexboxGrid.Item colspan={6} className={styles.center}>
-                  <div style={{ textAlign: 'right' }}>
-                    <div className={styles.slimText}>Agreed nr. trees</div>
-                    <div className={styles.dataText}>{item['agreedNrTrees']}</div>
-                  </div>
-                </FlexboxGrid.Item>
+    useEffect(() => {
+        getCuts();
+        checkIfForester();
+    }, [])
 
-                {/* cut trees */}
-                <FlexboxGrid.Item colspan={6} className={styles.center}>
-                  <div style={{ textAlign: 'right' }}>
-                    <div className={styles.slimText}>Cut nr. trees</div>
-                    <div className={styles.dataText}>
-                      {item['cutTrees'] < item['agreedNrTrees'] ? <span style={{ color: '#429321' }}>{item['cutTrees']}</span> : <span>{item['cutTrees']}</span>}
-                    </div>
-                  </div>
-                </FlexboxGrid.Item>
-              </FlexboxGrid>
-            </List.Item>
-          ))}
-        </List>
-      </div>
-    </>
-  )
+    const openFormModal = () => {
+        setIsFormModalOpen(true);
+    };
+
+    const closeFormModal = () => {
+        setIsFormModalOpen(false);
+    };
+
+    const openResultModal = (hash) => {
+        setResultHash(hash);
+        setIsResultModalOpen(true);
+    };
+
+    const closeResultModal = () => {
+        setIsResultModalOpen(false);
+    };
+
+    const reload = () => {
+        setCutsFetched(false);
+        setCuts([]);
+        setSearchedCuts([]);
+        getCuts();
+    };
+
+    const checkIfForester = () => {
+        getAccount().then(account => {
+            actorContract.methods.foresters(account).call()
+            .then(resp => {
+                setIsForester(resp);
+            });
+        });
+    };
+
+    const getCuts = () => {
+        cuttingContract.methods.getAllContractsCount().call()
+            .then(count => {
+                for (let i = 0; i < count; i++) {
+                    cuttingContract.methods.contractHashes(i).call()
+                        .then(contractHash => {
+                            cuttingContract.methods.contractInfo(contractHash).call()
+                                .then(contract => {
+                                    actorContract.methods.companyInfo(contract[0]).call()
+                                        .then(info => {
+                                            const cut = {
+                                                hash: contractHash,
+                                                company: info.name,
+                                                agreedNrTrees: contract[1],
+                                                location: contract[2],
+                                                startTime: contract[3],
+                                                nrCutTrees: contract[4]
+                                            }
+                                            setCuts(cuts => cuts.concat(cut));
+                                            setSearchedCuts(searchedCuts => searchedCuts.concat(cut));
+                                        });
+                                });
+                        });
+                }
+                setCutsFetched(true);
+            });
+    };
+
+    const searchHandler = (value) => {
+        var lowerCase = value.toLowerCase();
+
+        if (lowerCase === '') {
+            setSearchedCuts(cuts);
+        }
+        else {
+            const filteredResults = cuts.filter((cut) => {
+                return cut.hash.startsWith(lowerCase);
+            });
+
+            setSearchedCuts(filteredResults);
+        }
+    };
+
+    return (
+        <>
+            <h2 className={styles.pageTitle}>Cutting contracts</h2>
+
+            <div className={styles.addButton}>
+                { isForester && <Button appearance='ghost' onClick={openFormModal}>+ Create cutting contract</Button> }
+                <Modal overflow={false} size='md' open={isFormModalOpen} onClose={closeFormModal}>
+                    <Modal.Header>
+                        <Modal.Title>Create cutting contract</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <CutForm closeFormModal={closeFormModal} reload={reload} openResultModal={openResultModal} givenCif='' />
+                    </Modal.Body>
+                    <Modal.Footer />
+                </Modal>
+
+                <Modal overflow={false} size='md' open={isResultModalOpen} onClose={closeResultModal}>
+                    <Modal.Header>
+                        <Modal.Title>Created cutting contract</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <QRCodeCanvas value={clientUrl + '/cut/' + resultHash} className={styles.resultHash} />
+                        <p>Contract hash: {resultHash}</p>
+                        <p><i>Please make sure to screenshot the QR code!</i></p>
+                    </Modal.Body>
+                    <Modal.Footer />
+                </Modal>
+            </div>
+
+            <div className={styles.search}>
+                <InputGroup inside>
+                    <Input placeholder='Search for cutting contract hash' onChange={searchHandler}/>
+                    <InputGroup.Addon>
+                        <Search />
+                    </InputGroup.Addon>
+                </InputGroup>
+            </div>
+
+            <div className={styles.content}>
+                {
+                    cutsFetched ?
+                        <CutsList cuts={searchedCuts} />
+                        :
+                        <Loader size='lg' backdrop content="loading..." vertical />
+                }
+            </div>
+        </>
+    )
 }
 
 export default Cuts

@@ -1,0 +1,18 @@
+.content {
+    min-height: 100%;
+    justify-content: center;
+    height: fit-content;
+}
+
+.transportsContent {
+    margin-top: 3em;
+    margin-bottom: 1.5em;
+}
+
+.descriptionTitle {
+    font-size: 1.4em;
+    color: #97969B;
+    font-weight: lighter;
+    text-align: center;
+    margin-bottom: 1em;
+}
