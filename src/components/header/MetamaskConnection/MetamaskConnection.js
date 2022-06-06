@@ -16,7 +16,6 @@ function MetamaskConnection() {
     const [accountAddress, setAccountAddress] = useState("");
 
     useEffect(() => {
-        connectButtonOnClick();
 
         window.ethereum.on('accountsChanged', () => {
             connectButtonOnClick();
