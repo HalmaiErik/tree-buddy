@@ -87,7 +87,7 @@ const CutDescription = () => {
                         getAccount().then(account => {
                             actorContract.methods.addressCompany(account).call()
                                 .then(accountCif => {
-                                    setIsCutOwnedByAccount(accountCif == cutInfo.tin);
+                                    setIsCutOwnedByAccount(accountCif === cutInfo.tin);
 
                                     setCutInfo({
                                         company: info.name,
@@ -137,8 +137,6 @@ const CutDescription = () => {
         }).then(() => {
             toaster.push(successNotification('Cut authorized'), { placement: 'bottomEnd' });
             reloadCutInfo();
-        }).catch((e) => {
-            toaster.push(errorNotification(e), { placement: 'bottomEnd' });
         });
     };
 

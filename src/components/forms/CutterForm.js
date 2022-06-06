@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, ButtonToolbar, Form, Input, Schema, toaster } from 'rsuite';
+import { Button, ButtonToolbar, Form, Schema, toaster } from 'rsuite';
 import web3, { actorContract } from '../../web3';
 import { successNotification, errorNotification, loadingNotification } from '../../common/notifications/notifications';
 

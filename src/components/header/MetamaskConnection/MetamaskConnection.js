@@ -23,8 +23,6 @@ function MetamaskConnection() {
         });
     }, []);
 
-    const ref = React.useRef();
-
     const LogoutPopover = ({ address }) => {
 
         const ref = React.useRef();

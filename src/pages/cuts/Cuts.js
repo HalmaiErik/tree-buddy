@@ -1,5 +1,5 @@
 import styles from './Cuts.module.css'
-import { Modal, Button, Loader, Input, Tooltip } from 'rsuite';
+import { Modal, Button, Loader, Input } from 'rsuite';
 import { InputGroup } from 'rsuite';
 import Search from '@rsuite/icons/Search';
 import CutsList from '../../components/lists/cuts/CutsList';

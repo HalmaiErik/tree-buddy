@@ -1,5 +1,5 @@
 import styles from './Transports.module.css'
-import { Loader, Button, Modal, InputGroup, AutoComplete, Input } from 'rsuite';
+import { Loader, Button, Modal, InputGroup, Input } from 'rsuite';
 import Search from '@rsuite/icons/Search';
 import { useState, useEffect } from 'react';
 import { actorContract, transportContract} from '../../web3';

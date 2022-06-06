@@ -1,7 +1,7 @@
 import styles from './TransportDescription.module.css';
 import { useParams } from 'react-router-dom';
 import { QRCodeCanvas } from 'qrcode.react';
-import web3, { actorContract, cuttingContract, transportContract } from '../../web3'
+import { actorContract, cuttingContract, transportContract } from '../../web3'
 import { useEffect, useState } from 'react';
 import { Loader} from 'rsuite';
 import TransportOverview from '../../components/overviews/transport-overview/TransportOverview';
@@ -19,7 +19,6 @@ const TransportDescription = () => {
 
     const [cut, setCut] = useState([]);
 
-    const [transportInfoFetched, setTransportInfoFetched] = useState(false);
     const [cutFetched, setCutFetched] = useState(false);
 
     let { hash } = useParams();
@@ -38,7 +37,7 @@ const TransportDescription = () => {
                     departureTime: transport[3],
                     hash: hash
                 });
-                setTransportInfoFetched(true);
+
                 getCut(transport[2]);
             });
     };

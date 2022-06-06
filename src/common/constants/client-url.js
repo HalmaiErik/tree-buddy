@@ -1,4 +1,4 @@
-const clientUrl = "http://localhost:3000";
+const clientUrl = "https://treebuddy.herokuapp.com";
 
 export {
     clientUrl

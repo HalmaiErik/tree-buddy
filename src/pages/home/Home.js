@@ -4,30 +4,22 @@ import Typical from 'react-typical'
 import { Input, InputGroup } from 'rsuite'
 import Search from '@rsuite/icons/Search'
 import { useNavigate } from 'react-router-dom'
-import web3, { cuttingContract, transportContract } from '../../web3';
+import { cuttingContract, transportContract } from '../../web3';
 
 const Home = () => {
-    const data = [
-        'HYPER Advertiser',
-        'HYPER Web Analytics',
-        'HYPER Video Analytics',
-        'HYPER DMP',
-        'HYPER Ad Serving',
-        'HYPER Data Discovery'
-    ];
-
+    
     let navigate = useNavigate();
 
     const submitSearch = (e) => {
-        if (e.key == 'Enter') {
+        if (e.key === 'Enter') {
             const searchVal = e.target.value;
-            if (searchVal.length == 7) {
+            if (searchVal.length === 7) {
                 navigate("/car/" + searchVal.toUpperCase());
             }
-            else if (searchVal.length == 8) {
+            else if (searchVal.length === 8) {
                 navigate("/cutter/" + searchVal);
             }
-            else if (searchVal.length == 66) {
+            else if (searchVal.length === 66) {
                 cuttingContract.methods.contractInfo(searchVal).call()
                     .then(contract => {
                         if (contract[0] != 0) {
