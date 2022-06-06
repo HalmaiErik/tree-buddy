@@ -41,23 +41,25 @@ const Header = () => {
             from: accounts[0],
             gas: 200000
         }).on('error', (e) => {
-            toaster.push(errorNotification(e), {placement: 'bottomEnd'});
+            toaster.push(errorNotification(e), { placement: 'bottomEnd' });
         }).on('transactionHash', (txHash) => {
-            toaster.push(loadingNotification(txHash), {placement: 'bottomEnd'});
+            toaster.push(loadingNotification(txHash), { placement: 'bottomEnd' });
         }).then((result) => {
-            toaster.push(successNotification('Forester registered'), {placement: 'bottomEnd'});
+            toaster.push(successNotification('Forester registered'), { placement: 'bottomEnd' });
         }).catch((e) => {
-            toaster.push(errorNotification(e), {placement: 'bottomEnd'});
+            toaster.push(errorNotification(e), { placement: 'bottomEnd' });
         });
     };
 
     const checkIfForester = () => {
-        getAccount().then(account => {
-            actorContract.methods.foresters(account).call()
-            .then(resp => {
-                setIsForester(resp);
+        if (window.ethereum) {
+            getAccount().then(account => {
+                actorContract.methods.foresters(account).call()
+                    .then(resp => {
+                        setIsForester(resp);
+                    });
             });
-        });
+        }
     };
 
     return (
@@ -71,7 +73,7 @@ const Header = () => {
                 <NavLink to="/cutters">Cutters</NavLink>
             </Nav>
             <Nav pullRight className={styles.wallet}>
-                { isForester && <Button appearance='ghost' onClick={openModal} className={styles.addForesterBtn}>Add forester</Button> }
+                {isForester && <Button appearance='ghost' onClick={openModal} className={styles.addForesterBtn}>Add forester</Button>}
                 <Modal overflow={false} size='md' open={isModalOpen} onClose={closeModal}>
                     <Modal.Header>
                         <Modal.Title>Add forester</Modal.Title>

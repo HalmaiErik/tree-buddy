@@ -17,6 +17,7 @@ function MetamaskConnection() {
 
     useEffect(() => {
         if (window.ethereum) {
+            console.log('szia');
             connectButtonOnClick();
 
             window.ethereum.on('accountsChanged', () => {
