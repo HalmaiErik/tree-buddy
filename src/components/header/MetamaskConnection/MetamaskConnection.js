@@ -16,10 +16,13 @@ function MetamaskConnection() {
     const [accountAddress, setAccountAddress] = useState("");
 
     useEffect(() => {
-
-        window.ethereum.on('accountsChanged', () => {
+        if (window.ethereum) {
             connectButtonOnClick();
-        });
+
+            window.ethereum.on('accountsChanged', () => {
+                connectButtonOnClick();
+            });
+        }
     }, []);
 
     const LogoutPopover = ({ address }) => {
@@ -62,7 +65,7 @@ function MetamaskConnection() {
     }
 
     const connectButtonOnClick = () => {
-        if (typeof window !== "undefined") {
+        if (window.ethereum) {
             getAccount().then(response => {
                 setAccountAddress(response);
             });
