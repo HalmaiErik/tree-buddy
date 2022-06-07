@@ -16,8 +16,7 @@ function MetamaskConnection() {
     const [accountAddress, setAccountAddress] = useState("");
 
     useEffect(() => {
-        if (window.ethereum) {
-            console.log('szia');
+        if (window.ethereum && window.ethereum.isMetaMask) {
             connectButtonOnClick();
 
             window.ethereum.on('accountsChanged', () => {
@@ -66,7 +65,7 @@ function MetamaskConnection() {
     }
 
     const connectButtonOnClick = () => {
-        if (window.ethereum) {
+        if (window.ethereum && window.ethereum.isMetaMask) {
             getAccount().then(response => {
                 setAccountAddress(response);
             });
