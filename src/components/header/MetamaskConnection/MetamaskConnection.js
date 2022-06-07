@@ -4,11 +4,14 @@ import { Button, Popover, Whisper, Dropdown } from "rsuite";
 import { useNavigate } from 'react-router-dom';
 
 const getAccount = async () => {
-    const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-    });
-    const account = accounts[0];
-    return account;
+    if (window.ethereum && window.ethereum.isMetaMask) {
+        const accounts = await window.ethereum.request({
+            method: "eth_requestAccounts",
+        });
+        const account = accounts[0];
+        return account;
+    }
+    else return '0x0000000000000000000000000000000000000000';
 }
 
 function MetamaskConnection() {

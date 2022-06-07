@@ -1,5 +1,11 @@
 import Web3 from "web3";
-const web3 = new Web3(window.ethereum);
+let web3;
+if (window.ethereum && window.ethereum.isMetaMask) {
+    web3 = new Web3(window.ethereum);
+}
+else {
+    web3 = new Web3('https://rinkeby.infura.io/v3/872068728e024a3485c78b9fc66020ca');
+}
 export default web3;
 
 /*
