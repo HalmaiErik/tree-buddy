@@ -7,6 +7,7 @@ import { toaster } from 'rsuite';
 import web3, { actorContract } from '../../web3';
 import MetamaskConnection from './MetamaskConnection/MetamaskConnection';
 import { getAccount } from './MetamaskConnection/MetamaskConnection';
+import { isMobile } from 'react-device-detect';
 
 const Header = () => {
 
@@ -96,7 +97,8 @@ const Header = () => {
                         </Button>
                     </Modal.Footer>
                 </Modal>
-                <MetamaskConnection />
+                
+                { !isMobile && <MetamaskConnection /> }
             </Nav>
         </Navbar>
     )
