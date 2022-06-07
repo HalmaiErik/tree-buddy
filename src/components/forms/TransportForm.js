@@ -15,7 +15,7 @@ const TransportForm = ({ closeModal, reload, givenCif, givenCuts, givenCar, open
     const model = Schema.Model({
         cutHash: Schema.Types.StringType()
             .isRequired('This field is required')
-            .pattern(/^0x[a-fA-F0-9]{64}$/, 'Please enter a valid cutting contract hash'),
+            .pattern(/^(0x[a-fA-F0-9]{64})$/, 'Please enter a valid cutting contract hash'),
         nrTrees: Schema.Types.NumberType()
             .isRequired('This field is required')
             .range(0, 255, 'Please enter a number between 1 and 255'),

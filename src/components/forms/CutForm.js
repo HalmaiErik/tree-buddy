@@ -15,7 +15,7 @@ const CutForm = ({ closeFormModal, reload, openResultModal, givenCif }) => {
     const model = Schema.Model({
         cif: Schema.Types.StringType()
             .isRequired('This field is required')
-            .pattern(/^[0-9]{8}$/, 'The CIF must be of 8 numbers'),
+            .pattern(/^([0-9]{8})$/, 'The CIF must be of 8 numbers'),
         agreedNrTrees: Schema.Types.NumberType()
             .isRequired('This field is required')
             .range(0, 65535, 'Please enter a number between 1 and 65535'),

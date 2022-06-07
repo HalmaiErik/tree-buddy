@@ -17,13 +17,13 @@ const CutterForm = ({ closeModal, reload }) => {
             .isRequired('This field is required'),
         cif: Schema.Types.StringType()
             .isRequired('This field is required')
-            .pattern(/(?<![0-9])[0-9]{8}(?![0-9])/, 'The CIF must be of 8 numbers'),
+            .pattern(/^([0-9]{8})$/, 'The CIF must be of 8 numbers'),
         phone: Schema.Types.StringType()
             .isRequired('This field is required')
-            .pattern(/(?<![0-9])[0-9]{10}(?![0-9])/, 'The phone number must be of 10 numbers'),
+            .pattern(/^([0-9]{10})$/, 'The phone number must be of 10 numbers'),
         walletAddress: Schema.Types.StringType()
             .isRequired('This field is required')
-            .pattern(/^0x[a-fA-F0-9]{40}$/, 'Please enter a valid ethereum address')
+            .pattern(/^(0x[a-fA-F0-9]{40})$/, 'Please enter a valid ethereum address')
     });
 
     const submitForm = () => {
