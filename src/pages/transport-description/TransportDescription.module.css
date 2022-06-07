@@ -3,6 +3,10 @@
     height: fit-content;
     justify-content: center;
     margin-bottom: 2em;
+    background-image: url('../../forest-dark.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom center;
 }
 
 .qrcode {

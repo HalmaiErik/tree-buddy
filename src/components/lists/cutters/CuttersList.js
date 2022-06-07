@@ -9,10 +9,10 @@ const CuttersList = (props) => {
   return (
     <List hover bordered className={styles.list}>
       {props.cutters.map((item, index) => (
-        <List.Item key={item['cif']} index={index + 1} onClick={() => { navigate("/cutter/" + item['cif']) }}>
+        <List.Item className={styles.listItem} key={item['cif']} index={index + 1} onClick={() => { navigate("/cutter/" + item['cif']) }}>
           {/* name, cif */}
           <FlexboxGrid className={styles.flex}>
-            <FlexboxGrid.Item colspan={8} className={styles.center} style={{ flexDirection: 'column', alignItems: 'flex-start', overflow: 'hidden' }}>
+            <FlexboxGrid.Item colspan={8} className={styles.center} style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
               <div className={styles.titleText}>{item['name']}</div>
               <div className={styles.slimText}>
                 <div>

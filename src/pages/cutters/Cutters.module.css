@@ -2,6 +2,10 @@
     height: 100%;
     display: flex;
     justify-content: center;
+    background-image: url('../../forest-dark.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom center;
 }
 
 .addButton {

@@ -41,16 +41,16 @@ const Home = () => {
         <div className={styles.content}>
             <div className={styles.center}>
                 <h1>The Forests' Dapp</h1>
-                <h3 className={styles.inline}>
+                <h4 className={styles.inline}>
                     <Typical
                         loop={Infinity}
                         steps={[
-                            'Examine the validity of each transport', 2000,
-                            'Check all the cutting & transport contracts', 2000,
-                            'Inspect all the cutting firms', 2000
+                            'Validate transports', 2000,
+                            'Check cutting & transport contracts', 2000,
+                            'Inspect cutting firms', 2000
                         ]} />
-                </h3>
-                <p>All of this in a trustworthy, immutable & decentralized form, using Ethereum blockchain</p>
+                </h4>
+                <p>In a trustworthy, immutable & decentralized form, using Ethereum blockchain</p>
 
                 <div className={styles.search}>
                     <InputGroup inside>

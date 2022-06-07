@@ -7,18 +7,22 @@
     margin-right: auto;
 }
 
+.listItem {
+    background: transparent;
+}
+
 .center {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    height: 63px;
+    height: 5%;
 }
 
 .titleText {
     padding-bottom: 5px;
     white-space: nowrap;
     font-weight: bolder;
-    font-size: 1.2em;
+    font-size: 1em;
 }
 
 .slimText {
@@ -29,7 +33,7 @@
 }
 
 .dataText {
-    font-size: 1.2em;
+    font-size: 0.9em;
     font-weight: 500;
 }
 

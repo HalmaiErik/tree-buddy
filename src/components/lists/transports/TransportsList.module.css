@@ -8,16 +8,20 @@
     border: 1px #429321 solid;
 }
 
+.listItem {
+    background: transparent;
+}
+
 .centerList {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    height: 63px;
+    height: 5%;
 }
 
 .titleText {
     font-weight: bolder;
-    font-size: 1.2em;
+    font-size: 1em;
     text-align: center;
 }
 
@@ -29,7 +33,7 @@
 }
 
 .dataText {
-    font-size: 1.2em;
+    font-size: 0.9em;
     font-weight: 500;
 }
 

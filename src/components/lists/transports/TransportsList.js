@@ -12,11 +12,11 @@ const TransportsList = (props) => {
     return (
         <List hover bordered className={styles.list}>
             {props.transports.map((item, index) => (
-                <List.Item key={item['hash']} index={index + 1} onClick={() => { navigate("/transport/" + item['hash']) }}>
+                <List.Item className={styles.listItem} key={item['hash']} index={index + 1} onClick={() => { navigate("/transport/" + item['hash']) }}>
                     {/* hash, departure time, car */}
                     <FlexboxGrid>
                         <FlexboxGrid.Item colspan={6} className={styles.centerList} style={{ flexDirection: 'column', alignItems: 'flex-start', overflow: 'hidden' }}>
-                            <div className={styles.titleText}>{item['hash'].substring(0, 6) + '...' + item['hash'].substring(item['hash'].length - 10)}</div>
+                            <div className={styles.titleText}>{item['hash'].substring(0, 4) + '...' + item['hash'].substring(item['hash'].length - 4)}</div>
                             <div className={styles.slimText}>
                                 <div>
                                     <BsCalendarDate />
@@ -44,8 +44,8 @@ const TransportsList = (props) => {
                         {/* cut hash */}
                         <FlexboxGrid.Item colspan={6} className={styles.centerList}>
                             <div style={{ textAlign: 'right' }}>
-                                <div className={styles.slimText}>Associated cutting contract</div>
-                                <div className={styles.dataText}>{item['cutHash'].substring(0, 6) + '...' + item['cutHash'].substring(item['cutHash'].length - 10)}</div>
+                                <div className={styles.slimText}>Cutting contract</div>
+                                <div className={styles.dataText} style={{wordBreak: 'break-word'}}>{item['cutHash'].substring(0, 4) + '...' + item['cutHash'].substring(item['cutHash'].length - 4)}</div>
                             </div>
                         </FlexboxGrid.Item>
                     </FlexboxGrid>

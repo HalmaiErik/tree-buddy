@@ -12,11 +12,11 @@ const CutsList = (props) => {
     return (
         <List hover bordered className={styles.list}>
             {props.cuts.map((item, index) => (
-                <List.Item key={item['hash']} index={index + 1} onClick={() => { navigate("/cut/" + item['hash']) }}>
+                <List.Item className={styles.listItem} key={item['hash']} index={index + 1} onClick={() => { navigate("/cut/" + item['hash']) }}>
                     {/* hash, location & date */}
                     <FlexboxGrid className={styles.flex}>
                         <FlexboxGrid.Item colspan={6} className={styles.centerList} style={{ flexDirection: 'column', alignItems: 'flex-start', overflow: 'hidden' }}>
-                            <div className={styles.titleText}>{item['hash'].substring(0, 6) + '...' + item['hash'].substring(item['hash'].length - 10)}</div>
+                            <div className={styles.titleText}>{item['hash'].substring(0, 4) + '...' + item['hash'].substring(item['hash'].length - 4)}</div>
                             <div className={styles.slimText}>
                                 <div>
                                     <IoLocationOutline />

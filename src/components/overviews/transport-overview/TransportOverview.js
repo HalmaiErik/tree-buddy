@@ -9,7 +9,7 @@ const TransportOverview = ({ transportInfo, company, location }) => {
                 <Row className={styles.addressRow}>
                     <Col md={24}>
                         <div className={styles.slimText}>Transport hash</div>
-                        <div>{transportInfo.hash}</div>
+                        <div style={{ wordBreak: 'break-word' }}>{transportInfo.hash}</div>
                     </Col>
                 </Row>
 
@@ -23,7 +23,7 @@ const TransportOverview = ({ transportInfo, company, location }) => {
                 <Row className={styles.addressRow}>
                     <Col md={24}>
                         <div className={styles.slimText}>Cut hash</div>
-                        <div>{transportInfo.cutHash}</div>
+                        <div style={{ wordBreak: 'break-word' }}>{transportInfo.cutHash}</div>
                     </Col>
                 </Row>
 
@@ -32,7 +32,7 @@ const TransportOverview = ({ transportInfo, company, location }) => {
                         <div className={styles.slimText}>Cut location</div>
                         <div>{location}</div>
                     </Col>
-                    <Col md={8} style={{ textAlign: 'center' }}>
+                    <Col md={8} style={{ textAlign: 'left' }}>
                         <div className={styles.slimText}>Departure time</div>
                         <div>{convertEpochToDate(transportInfo.departureTime)}</div>
                     </Col>

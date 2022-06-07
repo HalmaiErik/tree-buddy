@@ -9,7 +9,7 @@ const CutOverview = ({ cutInfo }) => {
                 <Row className={styles.addressRow}>
                     <Col md={24}>
                         <div className={styles.slimText}>Cut hash</div>
-                        <div>{cutInfo.hash}</div>
+                        <div style={{ wordBreak: 'break-word' }}>{cutInfo.hash}</div>
                     </Col>
                 </Row>
 

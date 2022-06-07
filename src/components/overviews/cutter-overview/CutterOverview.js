@@ -8,7 +8,7 @@ const CutterOverview = ({ cutterInfo }) => {
                 <Row className={styles.addressRow}>
                     <Col md={24}>
                         <div className={styles.slimText}>Wallet address</div>
-                        <div>{cutterInfo.walletAddress}</div>
+                        <div style={{ wordBreak: 'break-word' }}>{cutterInfo.walletAddress}</div>
                     </Col>
                 </Row>
 
