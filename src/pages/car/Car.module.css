@@ -1,8 +1,7 @@
 .content {
-    min-height: 100%;
+    min-height: 90%;
     height: fit-content;
     justify-content: center;
-    margin-bottom: 2em;
     background-image: url('../../forest-dark.png');
     background-size: cover;
     background-repeat: no-repeat;
