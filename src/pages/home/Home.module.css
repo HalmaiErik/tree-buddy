@@ -14,9 +14,11 @@
     }
 }
 
-@supports ( -webkit-touch-callout : none) {
+@supports (-webkit-touch-callout : none) {
     .content {
         background-attachment: scroll;
+        height: 100vh;
+        min-height: 100%;
     }
 }
 
