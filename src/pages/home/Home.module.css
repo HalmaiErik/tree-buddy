@@ -8,7 +8,7 @@
     max-height: fit-content;
 }
 
-@media only screen and (max-width: 950px) {
+@media only screen and (max-device-width: 1300px) {
     .content {
         background-size: cover;
     }
@@ -17,7 +17,7 @@
 .center {
     padding-top: 4%;
     text-align: center;
-    text-shadow: -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
+    text-shadow: -0.12em 0 black, 0 0.12em black, 0.12em 0 black, 0 -0.12em black;
 }
 
 .search {
