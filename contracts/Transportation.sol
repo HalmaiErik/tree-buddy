@@ -35,7 +35,7 @@ contract Transportation {
 
         uint16 newNrTreesTransported = treesTransported[cutHash] + nrTrees;
         require(newNrTreesTransported <= cutting.getContractNrCutTrees(cutHash), 
-                "Cannot transport more trees than what has been cut for cutting contract");
+                "Cannot transport more trees than what have been cut for cutting contract");
         treesTransported[cutHash] = newNrTreesTransported;
 
         Transport memory transport = Transport(nrTrees, car, cutHash, block.timestamp);

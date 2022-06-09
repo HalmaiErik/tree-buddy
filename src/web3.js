@@ -9,9 +9,9 @@ else {
 
 export default web3;
 
-const actorContractAddress = "0xF6146BAdfd5577A1149731D13bF0600379BC7fB6";
-const cuttingContractAddress = "0x05230Dd9dF98967dBff7B87B0c07944b45077992";
-const transportationContractAddress = "0x3BA67dcc5898e2A8ec2ff0C00eD85F00a0D8e6f8";
+const actorContractAddress = "0xA0aE44CAE30482eD33C3C36651c0eB3C5991Ce91";
+const cuttingContractAddress = "0x9b8a11063aAe16EEC72687DfFfa29bD6BE8b45F2";
+const transportationContractAddress = "0xa6434512e68B993E20ACfd9479F7f49539E25115";
 
 const abiActorContract = require('./abi/ActorsRegistration.json').abi;
 const abiCuttingContract = require('./abi/TreeCutting.json').abi;
