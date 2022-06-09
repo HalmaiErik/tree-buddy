@@ -39,16 +39,26 @@ const CutterForm = ({ closeModal, reload }) => {
 
     const registerCutter = async () => {
         const accounts = await web3.eth.getAccounts();
-        actorContract.methods.registerCutter(web3.utils.asciiToHex(formValue.cif), formValue.name, web3.utils.asciiToHex(formValue.phone), formValue.walletAddress).send({
-            from: accounts[0]
-        }).on('error', (e) => {
+
+        try {
+            await actorContract.methods.registerCutter(web3.utils.asciiToHex(formValue.cif), formValue.name, web3.utils.asciiToHex(formValue.phone), formValue.walletAddress).call({
+                from: accounts[0]
+            });
+
+            actorContract.methods.registerCutter(web3.utils.asciiToHex(formValue.cif), formValue.name, web3.utils.asciiToHex(formValue.phone), formValue.walletAddress).send({
+                from: accounts[0]
+            }).on('error', (e) => {
+                toaster.push(errorNotification(e), { placement: 'bottomEnd' });
+            }).on('transactionHash', (txHash) => {
+                toaster.push(loadingNotification(txHash), { placement: 'bottomEnd' });
+            }).then(() => {
+                toaster.push(successNotification('Cutter company registered'), { placement: 'bottomEnd' });
+                reload();
+            });
+        }
+        catch (e) {
             toaster.push(errorNotification(e), { placement: 'bottomEnd' });
-        }).on('transactionHash', (txHash) => {
-            toaster.push(loadingNotification(txHash), { placement: 'bottomEnd' });
-        }).then(() => {
-            toaster.push(successNotification('Cutter company registered'), { placement: 'bottomEnd' });
-            reload();
-        });
+        }
     };
 
     return (
@@ -74,7 +84,7 @@ const CutterForm = ({ closeModal, reload }) => {
                 <Form.HelpText>Required</Form.HelpText>
             </Form.Group>
             <Form.Group>
-                <ButtonToolbar style={{'float': 'right'}}>
+                <ButtonToolbar style={{ 'float': 'right' }}>
                     <Button appearance="primary" onClick={submitForm}>Submit</Button>
                     <Button appearance="subtle" onClick={closeModal}>Cancel</Button>
                 </ButtonToolbar>

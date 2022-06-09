@@ -37,17 +37,27 @@ const TransportForm = ({ closeModal, reload, givenCif, givenCuts, givenCar, open
 
     const createTransportContract = async () => {
         const accounts = await web3.eth.getAccounts();
-        transportContract.methods.createTransportContract(formValue.nrTrees, web3.utils.asciiToHex(formValue.car.toUpperCase()), formValue.cutHash).send({
-            from: accounts[0]
-        }).on('error', (e) => {
+
+        try {
+            await transportContract.methods.createTransportContract(formValue.nrTrees, web3.utils.asciiToHex(formValue.car.toUpperCase()), formValue.cutHash).call({
+                from: accounts[0]
+            });
+
+            transportContract.methods.createTransportContract(formValue.nrTrees, web3.utils.asciiToHex(formValue.car.toUpperCase()), formValue.cutHash).send({
+                from: accounts[0]
+            }).on('error', (e) => {
+                toaster.push(errorNotification(e), { placement: 'bottomEnd' });
+            }).on('transactionHash', (txHash) => {
+                toaster.push(loadingNotification(txHash), { placement: 'bottomEnd' });
+            }).then(result => {
+                toaster.push(successNotification('Transport contract created'), { placement: 'bottomEnd' });
+                reload();
+                openResultModal(result.events.TransportCreated.returnValues.transportHash);
+            });
+        }
+        catch (e) {
             toaster.push(errorNotification(e), { placement: 'bottomEnd' });
-        }).on('transactionHash', (txHash) => {
-            toaster.push(loadingNotification(txHash), { placement: 'bottomEnd' });
-        }).then(result => {
-            toaster.push(successNotification('Transport contract created'), { placement: 'bottomEnd' });
-            reload();
-            openResultModal(result.events.TransportCreated.returnValues.transportHash);
-        });
+        }
     };
 
     return (

@@ -12,6 +12,7 @@ import TransportDescription from './pages/transport-description/TransportDescrip
 import CutterDescription from './pages/cutter-description/CutterDescription';
 import CutterDashboard from './pages/cutter-dashboard/CutterDashboard';
 import Car from './pages/car/Car';
+import NotFound from './pages/not-found/NotFound';
 
 const App = () => {
     return (
@@ -32,6 +33,8 @@ const App = () => {
                     <Route path='/car/:car' element={<Car />} />
 
                     <Route path='/dashboard/:address' element={<CutterDashboard />} />
+
+                    <Route path="/notfound" element={<NotFound />} />
                 </Routes>
 
                 <Footer style={{ 'backgroundColor': '#1a1d24' }}>

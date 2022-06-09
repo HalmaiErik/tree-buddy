@@ -1,0 +1,12 @@
+.content {
+    background-image: url('../../forest-dark.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    height: 100%;
+}
+
+.center {
+    padding-top: 6%;
+    text-align: center;
+}

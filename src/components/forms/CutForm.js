@@ -36,17 +36,28 @@ const CutForm = ({ closeFormModal, reload, openResultModal, givenCif }) => {
 
     const createCuttingContract = async () => {
         const accounts = await web3.eth.getAccounts();
-        cuttingContract.methods.createCuttingContract(web3.utils.asciiToHex(formValue.cif), formValue.agreedNrTrees, formValue.location).send({
-            from: accounts[0]
-        }).on('error', (e) => {
+
+        try {
+            await cuttingContract.methods.createCuttingContract(web3.utils.asciiToHex(formValue.cif), formValue.agreedNrTrees, formValue.location).call({
+                from: accounts[0]
+            });
+
+            cuttingContract.methods.createCuttingContract(web3.utils.asciiToHex(formValue.cif), formValue.agreedNrTrees, formValue.location).send({
+                from: accounts[0]
+            }).on('error', (e) => {
+                toaster.push(errorNotification(e), { placement: 'bottomEnd' });
+            }).on('transactionHash', (txHash) => {
+                toaster.push(loadingNotification(txHash), { placement: 'bottomEnd' });
+            }).then(result => {
+                toaster.push(successNotification('Cutting contract created'), { placement: 'bottomEnd' });
+                reload();
+                openResultModal(result.events.CutCreated.returnValues.cutHash);
+            });
+        }
+        catch (e) {
             toaster.push(errorNotification(e), { placement: 'bottomEnd' });
-        }).on('transactionHash', (txHash) => {
-            toaster.push(loadingNotification(txHash), { placement: 'bottomEnd' });
-        }).then(result => {
-            toaster.push(successNotification('Cutting contract created'), { placement: 'bottomEnd' });
-            reload();
-            openResultModal(result.events.CutCreated.returnValues.cutHash);
-        });
+        }
+        
     };
 
     return (

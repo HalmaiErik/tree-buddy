@@ -19,7 +19,7 @@
  */
 
 const HDWalletProvider = require('truffle-hdwallet-provider');
-const pk = '6536c3b79919ba6205e1a7de4b12e24650a817aff4ac847546b8b435b02716c6';
+const pk = '81a2fa12866cfbc4537c929251c35510e7e3b0a5527741ca69e3012295324189';
 
 //
 // const fs = require('fs');
@@ -46,6 +46,10 @@ module.exports = {
      rinkeby: {
        provider: () => new HDWalletProvider(pk, 'https://rinkeby.infura.io/v3/872068728e024a3485c78b9fc66020ca'),
        network_id: 4
+     },
+     ropsten: {
+      provider: () => new HDWalletProvider(pk, 'https://ropsten.infura.io/v3/872068728e024a3485c78b9fc66020ca'),
+      network_id: 3
      }
    },
  

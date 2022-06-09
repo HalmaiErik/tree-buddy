@@ -15,9 +15,11 @@ const Home = () => {
             const searchVal = e.target.value;
             if (searchVal.length === 7) {
                 navigate("/car/" + searchVal.toUpperCase());
+                return;
             }
             else if (searchVal.length === 8) {
                 navigate("/cutter/" + searchVal);
+                return;
             }
             else if (searchVal.length === 66) {
                 cuttingContract.methods.contractInfo(searchVal).call()
@@ -31,9 +33,12 @@ const Home = () => {
                     .then(contract => {
                         if (contract[2] != 0) {
                             navigate("/transport/" + searchVal);
+                            return;
                         }
                     });
             }
+            
+            navigate("/notfound");
         }
     }
 

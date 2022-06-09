@@ -30,6 +30,7 @@ contract ActorsRegistration {
 
     function registerCutter(bytes8 tin, string memory name, bytes10 phone, address walletAddress) onlyForester external {
         require(getCompanyAddress(tin) == address(0), "Cutter company already registered");
+        require(addressCompany[walletAddress] == bytes8(0), "Ethereum address already used by another company");
 
         Company memory company = Company(name, phone, walletAddress);
         companyInfo[tin] = company;
