@@ -16,7 +16,7 @@ const CuttersList = (props) => {
               <div className={styles.titleText}>{item['name']}</div>
               <div className={styles.slimText}>
                 <div>
-                  {'CIF: ' + item['cif']}
+                  {'TIN: ' + item['cif']}
                 </div>
               </div>
             </FlexboxGrid.Item>

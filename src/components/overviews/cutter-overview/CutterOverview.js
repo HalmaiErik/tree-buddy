@@ -12,6 +12,13 @@ const CutterOverview = ({ cutterInfo }) => {
                     </Col>
                 </Row>
 
+                <Row className={styles.addressRow}>
+                    <Col md={24}>
+                        <div className={styles.slimText}>TIN</div>
+                        <div>{cutterInfo.cif}</div>
+                    </Col>
+                </Row>
+
                 <Row className={styles.infoRow}>
                     <Col md={4}>
                         <div className={styles.slimText}>Phone</div>

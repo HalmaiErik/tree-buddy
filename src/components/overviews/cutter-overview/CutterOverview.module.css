@@ -4,6 +4,7 @@
 
 .addressRow {
     padding-inline: 1em;
+    padding-bottom: 1em;
 }
 
 .descriptionRow {
@@ -13,7 +14,8 @@
 }
 
 .infoRow {
-    padding: 1em;
+    padding-inline: 1em;
+    padding-bottom: 1em;
 }
 
 .slimText {
