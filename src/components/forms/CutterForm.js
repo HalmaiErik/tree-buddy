@@ -69,7 +69,7 @@ const CutterForm = ({ closeModal, reload }) => {
                 <Form.HelpText>Required</Form.HelpText>
             </Form.Group>
             <Form.Group controlId="cif-9">
-                <Form.ControlLabel>CIF</Form.ControlLabel>
+                <Form.ControlLabel>TIN</Form.ControlLabel>
                 <Form.Control name="cif" />
                 <Form.HelpText>Required</Form.HelpText>
             </Form.Group>
