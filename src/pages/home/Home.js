@@ -59,7 +59,7 @@ const Home = () => {
 
                 <div className={styles.search}>
                     <InputGroup inside>
-                        <Input placeholder='Search for cutter CIF, transport vehicle number plate, cutting or transport contract hash' onKeyDown={submitSearch} />
+                        <Input placeholder='Search for cutter TIN, transport vehicle number plate, cutting or transport contract hash' onKeyDown={submitSearch} />
                         <InputGroup.Addon>
                             <Search />
                         </InputGroup.Addon>

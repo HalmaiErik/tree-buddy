@@ -102,7 +102,7 @@ const Cutters = () => {
 
             <div className={styles.search}>
                 <InputGroup inside>
-                    <Input placeholder='Search for cutting company name or CIF' onChange={searchHandler} />
+                    <Input placeholder='Search for cutting company name or TIN' onChange={searchHandler} />
                     <InputGroup.Addon>
                         <Search />
                     </InputGroup.Addon>
