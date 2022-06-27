@@ -171,7 +171,7 @@ const CutDescription = () => {
                     </Modal.Header>
                     <Modal.Body>
                         <TransportForm closeModal={closeModal} openResultModal={openResultModal} reload={reloadTransports} givenCif='' givenCar=''
-                            givenCuts={[{ label: hash, value: hash }]} />
+                            givenCuts={[]} givenCut={hash} />
                     </Modal.Body>
                     <Modal.Footer />
                 </Modal>

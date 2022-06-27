@@ -110,7 +110,7 @@ const Transports = () => {
                         <Modal.Title>Create transport contract</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <TransportForm closeModal={closeModal} openResultModal={openResultModal} reload={reload} givenCif='' givenCuts={[]} givenCar='' />
+                        <TransportForm closeModal={closeModal} openResultModal={openResultModal} reload={reload} givenCif='' givenCut='' givenCuts={[]} givenCar='' />
                     </Modal.Body>
                     <Modal.Footer />
                 </Modal>

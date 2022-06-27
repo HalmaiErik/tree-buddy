@@ -3,10 +3,10 @@ import web3, { transportContract } from '../../web3';
 import { Button, ButtonToolbar, Form, toaster, SelectPicker, Schema } from 'rsuite';
 import { successNotification, errorNotification, loadingNotification } from '../../common/notifications/notifications';
 
-const TransportForm = ({ closeModal, reload, givenCif, givenCuts, givenCar, openResultModal }) => {
+const TransportForm = ({ closeModal, reload, givenCif, givenCut, givenCuts, givenCar, openResultModal }) => {
 
     const [formValue, setFormValue] = useState({
-        cutHash: '',
+        cutHash: givenCut,
         cif: givenCif,
         nrTrees: 0,
         car: givenCar
@@ -28,7 +28,7 @@ const TransportForm = ({ closeModal, reload, givenCif, givenCuts, givenCar, open
         createTransportContract();
         closeModal();
         setFormValue({
-            cutHash: '',
+            cutHash: givenCut,
             cif: givenCif,
             nrTrees: 0,
             car: ''
@@ -65,10 +65,13 @@ const TransportForm = ({ closeModal, reload, givenCif, givenCuts, givenCar, open
             <Form.Group controlId='cutHash-9'>
                 <Form.ControlLabel>Cutting contract hash</Form.ControlLabel>
                 {
-                    givenCuts.length ?
-                        <Form.Control name="cutHash" data={givenCuts} block accepter={SelectPicker} />
+                    !!givenCut ?
+                        <Form.Control readOnly name="cutHash" />
                         :
-                        <Form.Control name="cutHash" />
+                        givenCuts.length ?
+                            <Form.Control name="cutHash" data={givenCuts} block accepter={SelectPicker} />
+                            :
+                            <Form.Control name="cutHash" />
                 }
                 <Form.HelpText>Required</Form.HelpText>
             </Form.Group>

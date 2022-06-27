@@ -84,7 +84,7 @@ const Car = () => {
                     </Modal.Header>
                     <Modal.Body>
                         <TransportForm closeModal={closeModal} reload={reload} givenCif=''
-                            givenCuts={[]} givenCar={car} />
+                            givenCuts={[]} givenCar={car} givenCut=''/>
                     </Modal.Body>
                     <Modal.Footer />
                 </Modal>

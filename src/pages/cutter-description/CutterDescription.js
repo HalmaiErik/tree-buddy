@@ -253,7 +253,7 @@ const CutterDescription = () => {
                     </Modal.Header>
                     <Modal.Body>
                         <TransportForm closeModal={closeTransportModal} openResultModal={openTransportResultModal} reload={reloadTransports} givenCif={cif}
-                            givenCuts={
+                            givenCut='' givenCuts={
                                 cuts.map(cut => ({
                                     label: cut.hash,
                                     value: cut.hash

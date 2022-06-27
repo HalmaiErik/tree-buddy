@@ -21,11 +21,11 @@ const CutOverview = ({ cutInfo }) => {
                 </Row>
 
                 <Row className={styles.infoRow}>
-                    <Col md={8}>
+                    <Col md={6}>
                         <div className={styles.slimText}>Location</div>
                         <div>{cutInfo.location}</div>
                     </Col>
-                    <Col md={4}>
+                    <Col md={6}>
                         <div className={styles.slimText}>Creation time</div>
                         <div>{convertEpochToDate(cutInfo.startTime)}</div>
                     </Col>

@@ -1,7 +1,7 @@
 import styles from './TransportDescription.module.css';
 import { useParams } from 'react-router-dom';
 import { QRCodeCanvas } from 'qrcode.react';
-import { actorContract, cuttingContract, transportContract } from '../../web3'
+import web3, { actorContract, cuttingContract, transportContract } from '../../web3'
 import { useEffect, useState } from 'react';
 import { Loader} from 'rsuite';
 import TransportOverview from '../../components/overviews/transport-overview/TransportOverview';
@@ -32,7 +32,7 @@ const TransportDescription = () => {
             .then(transport => {
                 setTransportInfo({
                     nrTrees: transport[0],
-                    car: transport[1],
+                    car: web3.utils.hexToAscii(transport[1]),
                     cutHash: transport[2],
                     departureTime: transport[3],
                     hash: hash

@@ -28,15 +28,19 @@ const TransportOverview = ({ transportInfo, company, location }) => {
                 </Row>
 
                 <Row className={styles.infoRow}>
-                    <Col md={8}>
+                    <Col md={6}>
                         <div className={styles.slimText}>Cut location</div>
                         <div>{location}</div>
                     </Col>
-                    <Col md={8} style={{ textAlign: 'left' }}>
+                    <Col md={6}>
                         <div className={styles.slimText}>Departure time</div>
                         <div>{convertEpochToDate(transportInfo.departureTime)}</div>
                     </Col>
-                    <Col md={8} style={{ textAlign: 'right' }}>
+                    <Col md={6} style={{ textAlign: 'right' }}>
+                        <div className={styles.slimText}>Vehicle nr. plate</div>
+                        <div>{transportInfo.car}</div>
+                    </Col>
+                    <Col md={6} style={{ textAlign: 'right' }}>
                         <div className={styles.slimText}>Nr. trees</div>
                         <div>{transportInfo.nrTrees}</div>
                     </Col>
