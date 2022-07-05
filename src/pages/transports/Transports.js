@@ -130,7 +130,7 @@ const Transports = () => {
 
             <div className={styles.search}>
                 <InputGroup inside>
-                    <Input placeholder='Search for transport contract hash, car number plate or cutting company CIF' onChange={searchHandler} />
+                    <Input placeholder='Search for transport contract hash' onChange={searchHandler} />
                     <InputGroup.Addon>
                         <Search />
                     </InputGroup.Addon>
