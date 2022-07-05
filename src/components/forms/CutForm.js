@@ -64,7 +64,7 @@ const CutForm = ({ closeFormModal, reload, openResultModal, givenCif }) => {
 
         <Form fluid onChange={setFormValue} formValue={formValue} model={model}>
             <Form.Group controlId='cif-9'>
-                <Form.ControlLabel>CIF</Form.ControlLabel>
+                <Form.ControlLabel>TIN</Form.ControlLabel>
                 {
                     !!givenCif ?
                         <Form.Control readOnly name="cif" />
