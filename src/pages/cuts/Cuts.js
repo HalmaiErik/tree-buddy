@@ -97,7 +97,7 @@ const Cuts = () => {
         }
         else {
             const filteredResults = cuts.filter((cut) => {
-                return cut.hash.startsWith(lowerCase) || cut.location.startsWith(value);
+                return cut.hash.startsWith(lowerCase) || cut.location.toLowerCase().startsWith(lowerCase);
             });
 
             setSearchedCuts(filteredResults);
