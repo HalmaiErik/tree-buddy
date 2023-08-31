@@ -19,7 +19,7 @@
  */
 
 const HDWalletProvider = require('truffle-hdwallet-provider');
-const pk = '81a2fa12866cfbc4537c929251c35510e7e3b0a5527741ca69e3012295324189';
+const pk = 'e6d7e426c63cf850d6a0ff858da617900a74bc097868e1553f177b553fee1898';
 
 //
 // const fs = require('fs');
@@ -43,14 +43,10 @@ module.exports = {
        port: 7545,
        network_id: 5777
      },
-     rinkeby: {
-       provider: () => new HDWalletProvider(pk, 'https://rinkeby.infura.io/v3/872068728e024a3485c78b9fc66020ca'),
-       network_id: 4
+     sepolia: {
+       provider: () => new HDWalletProvider(pk, 'https://sepolia.infura.io/v3/872068728e024a3485c78b9fc66020ca'),
+       network_id: '11155111'
      },
-     ropsten: {
-      provider: () => new HDWalletProvider(pk, 'https://ropsten.infura.io/v3/872068728e024a3485c78b9fc66020ca'),
-      network_id: 3
-     }
    },
  
    // Set default mocha options here, use special reporters etc.
