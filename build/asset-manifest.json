@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/tree-buddy/static/css/main.31fdb097.chunk.css",
+    "main.js": "/tree-buddy/static/js/main.141dd4e8.chunk.js",
+    "main.js.map": "/tree-buddy/static/js/main.141dd4e8.chunk.js.map",
+    "runtime-main.js": "/tree-buddy/static/js/runtime-main.11248682.js",
+    "runtime-main.js.map": "/tree-buddy/static/js/runtime-main.11248682.js.map",
+    "static/css/2.f80ac518.chunk.css": "/tree-buddy/static/css/2.f80ac518.chunk.css",
+    "static/js/2.30462dd2.chunk.js": "/tree-buddy/static/js/2.30462dd2.chunk.js",
+    "static/js/2.30462dd2.chunk.js.map": "/tree-buddy/static/js/2.30462dd2.chunk.js.map",
+    "index.html": "/tree-buddy/index.html",
+    "static/css/2.f80ac518.chunk.css.map": "/tree-buddy/static/css/2.f80ac518.chunk.css.map",
+    "static/css/main.31fdb097.chunk.css.map": "/tree-buddy/static/css/main.31fdb097.chunk.css.map",
+    "static/js/2.30462dd2.chunk.js.LICENSE.txt": "/tree-buddy/static/js/2.30462dd2.chunk.js.LICENSE.txt",
+    "static/media/NotFound.module.css": "/tree-buddy/static/media/forest-dark.1a1bec7d.png",
+    "static/media/Home.module.css": "/tree-buddy/static/media/trees2.6089085c.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.11248682.js",
+    "static/css/2.f80ac518.chunk.css",
+    "static/js/2.30462dd2.chunk.js",
+    "static/css/main.31fdb097.chunk.css",
+    "static/js/main.141dd4e8.chunk.js"
+  ]
+}

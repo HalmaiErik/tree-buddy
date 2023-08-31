@@ -17,7 +17,7 @@ import NotFound from './pages/not-found/NotFound';
 const App = () => {
     return (
         <CustomProvider theme="dark">
-            <BrowserRouter>
+            <BrowserRouter basename='/tree-buddy'>
                 <Header />
 
                 <Routes>
