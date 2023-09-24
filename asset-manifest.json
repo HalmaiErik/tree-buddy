@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/tree-buddy/static/css/main.31fdb097.chunk.css",
-    "main.js": "/tree-buddy/static/js/main.e3765933.chunk.js",
-    "main.js.map": "/tree-buddy/static/js/main.e3765933.chunk.js.map",
+    "main.js": "/tree-buddy/static/js/main.f7825bec.chunk.js",
+    "main.js.map": "/tree-buddy/static/js/main.f7825bec.chunk.js.map",
     "runtime-main.js": "/tree-buddy/static/js/runtime-main.11248682.js",
     "runtime-main.js.map": "/tree-buddy/static/js/runtime-main.11248682.js.map",
     "static/css/2.8d9d2cee.chunk.css": "/tree-buddy/static/css/2.8d9d2cee.chunk.css",
@@ -20,6 +20,6 @@
     "static/css/2.8d9d2cee.chunk.css",
     "static/js/2.30462dd2.chunk.js",
     "static/css/main.31fdb097.chunk.css",
-    "static/js/main.e3765933.chunk.js"
+    "static/js/main.f7825bec.chunk.js"
   ]
 }
