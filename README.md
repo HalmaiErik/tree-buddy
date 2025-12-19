@@ -1,3 +1,5 @@
+# tree-buddy  
+  
 This thesis introduces a blockchain-based web platform for the management of tree
 cutting and transportation. It describes the implementation of a smart contract based
 decentralized application, whose functionalities can be reached using a website platform . It
